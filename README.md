@@ -31,7 +31,6 @@ pharma-221/
 │   ├── app.ts
 │   └── server.ts
 ├── tests/
-├── docker/
 ├── package.json
 ├── tsconfig.json
 └── README.md
