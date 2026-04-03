@@ -1,33 +1,35 @@
+import { IService } from "../../common/interfaces/IService";
 import { AppError } from "../../common/errors/app-error";
-import { db } from "../../config/db";
+import { isStrictlyAfterToday } from "../../common/utils/date";
+import { CreateVenteDTO } from "./dto/CreateVenteDTO";
+import { IVenteRepository, VenteDetails } from "./interfaces/IVenteRepository";
+import { IVenteService } from "./interfaces/IVenteService";
+import { VenteRepository } from "./vente.repository";
 
-export interface CreateVenteInput {
-  clientId: string;
-  medicamentId: string;
-  quantite: number;
-  dateVente?: Date;
-}
+export class VenteService
+  implements IService<VenteDetails, CreateVenteDTO, never, string>, IVenteService
+{
+  constructor(private readonly venteRepository: IVenteRepository = new VenteRepository()) {}
 
-export class VenteService {
   async list() {
-    return db.vente.findMany({
-      include: {
-        client: true,
-        medicament: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    return this.venteRepository.list();
   }
 
-  async create(data: CreateVenteInput) {
-    return db.$transaction(async (transaction) => {
-      const client = await transaction.client.findUnique({
-        where: {
-          id: data.clientId,
-        },
+  async getById(id: string) {
+    const vente = await this.venteRepository.findById(id);
+
+    if (!vente) {
+      throw new AppError(404, "Vente introuvable.", {
+        venteId: id,
       });
+    }
+
+    return vente;
+  }
+
+  async create(data: CreateVenteDTO) {
+    return this.venteRepository.transaction(async (transaction) => {
+      const client = await this.venteRepository.findClientById(data.clientId, transaction);
 
       if (!client) {
         throw new AppError(404, "Client introuvable.", {
@@ -35,11 +37,10 @@ export class VenteService {
         });
       }
 
-      const medicament = await transaction.medicament.findUnique({
-        where: {
-          id: data.medicamentId,
-        },
-      });
+      const medicament = await this.venteRepository.findMedicamentById(
+        data.medicamentId,
+        transaction,
+      );
 
       if (!medicament) {
         throw new AppError(404, "Medicament introuvable.", {
@@ -47,21 +48,39 @@ export class VenteService {
         });
       }
 
+      if (!isStrictlyAfterToday(medicament.dateExpiration)) {
+        throw new AppError(409, "Vente refusee: le medicament est expire.", {
+          medicamentId: data.medicamentId,
+          dateExpiration: medicament.dateExpiration,
+        });
+      }
+
+      if (medicament.qteStock < data.quantite) {
+        throw new AppError(409, "Stock insuffisant pour effectuer la vente.", {
+          medicamentId: data.medicamentId,
+          qteStock: medicament.qteStock,
+          quantiteDemandee: data.quantite,
+        });
+      }
+
       const montantTotal = medicament.prix.mul(data.quantite);
 
-      return transaction.vente.create({
-        data: {
+      await this.venteRepository.decrementMedicamentStock(
+        data.medicamentId,
+        data.quantite,
+        transaction,
+      );
+
+      return this.venteRepository.create(
+        {
           clientId: data.clientId,
           medicamentId: data.medicamentId,
           quantite: data.quantite,
           dateVente: data.dateVente,
           montantTotal,
         },
-        include: {
-          client: true,
-          medicament: true,
-        },
-      });
+        transaction,
+      );
     });
   }
 }

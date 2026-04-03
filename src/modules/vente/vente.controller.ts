@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 
+import { IController } from "../../common/interfaces/IController";
 import { APP_MESSAGES } from "../../common/messages";
-import { VenteService } from "./vente.service";
+import { IVenteService } from "./interfaces/IVenteService";
 
-export class VenteController {
-  constructor(private readonly venteService: VenteService) {}
+export class VenteController implements IController {
+  constructor(private readonly venteService: IVenteService) {}
 
   list = async (_req: Request, res: Response) => {
     const data = await this.venteService.list();
@@ -25,5 +26,14 @@ export class VenteController {
       data,
     });
   };
-}
 
+  getById = async (req: Request, res: Response) => {
+    const data = await this.venteService.getById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: APP_MESSAGES.VENTE_FETCHED,
+      data,
+    });
+  };
+}
