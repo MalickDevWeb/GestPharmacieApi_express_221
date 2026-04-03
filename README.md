@@ -45,6 +45,14 @@ npm run prisma:generate
 npm run dev
 ```
 
+## Swagger
+
+Documentation interactive disponible sur:
+
+- local: `http://localhost:4000/docs`
+- OpenAPI JSON: `http://localhost:4000/docs/openapi.json`
+- production: `https://pharmacie-221.onrender.com/docs`
+
 ## Progression des sprints
 
 - `Sprint 1` : modele Prisma aligne au sujet.
