@@ -1,10 +1,11 @@
 import { db } from "../../config/db";
 
 export interface CreateFournisseurInput {
+  code: string;
   nom: string;
+  adresse: string;
   telephone?: string;
-  email?: string;
-  adresse?: string;
+  email: string;
 }
 
 export class FournisseurService {
@@ -25,4 +26,3 @@ export class FournisseurService {
     });
   }
 }
-

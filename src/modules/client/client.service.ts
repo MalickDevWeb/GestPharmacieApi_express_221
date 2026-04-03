@@ -1,10 +1,11 @@
 import { db } from "../../config/db";
 
 export interface CreateClientInput {
+  prenom: string;
   nom: string;
-  prenom?: string;
-  telephone?: string;
-  email?: string;
+  telephone: string;
+  email: string;
+  adresse?: string;
 }
 
 export class ClientService {
@@ -22,4 +23,3 @@ export class ClientService {
     });
   }
 }
-

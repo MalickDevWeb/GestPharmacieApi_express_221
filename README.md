@@ -46,3 +46,43 @@ Exemple de flux:
 git checkout dev
 git checkout -b feature/gestion-clients
 ```
+
+## Workflow Kilo -> Codex
+
+Si `Kilo Code` implemente une fonctionnalite, `Codex` peut passer ensuite comme ingenieur qualite final.
+
+Principe:
+
+- `Kilo Code` code la fonctionnalite dans sa branche ou son worktree.
+- `Codex` seul garde l'acces au MCP `Neon`.
+- `Codex` relit, teste, corrige et aligne les changements sur les conventions du repo.
+
+Commande:
+
+```bash
+npm run agent:codex-guard
+```
+
+Mode local uniquement:
+
+```bash
+npm run agent:codex-guard:local
+```
+
+Avec une base explicite:
+
+```bash
+bash scripts/codex-guard.sh dev
+```
+
+Ce script demande a `Codex` de:
+
+- comparer la branche courante a `dev`
+- lancer les controles utiles
+- corriger les ecarts de qualite ou de coherence
+- conserver l'intention fonctionnelle de depart
+
+Comportement de secours:
+
+- si `Codex` distant est inaccessible, le script bascule sur des controles locaux
+- l'etat runtime de `Codex` est redirige vers `.kilo/codex-home/` pour eviter les erreurs de permissions

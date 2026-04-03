@@ -7,17 +7,10 @@ import { VenteController } from "./vente.controller";
 
 const createVenteSchema = z.object({
   body: z.object({
-    clientId: z.string().uuid().optional(),
-    vendeurId: z.string().uuid().optional(),
-    items: z
-      .array(
-        z.object({
-          medicamentId: z.string().uuid(),
-          quantite: z.coerce.number().int().positive(),
-          prixUnitaire: z.coerce.number().positive(),
-        }),
-      )
-      .min(1),
+    clientId: z.string().uuid(),
+    medicamentId: z.string().uuid(),
+    quantite: z.coerce.number().int().positive(),
+    dateVente: z.coerce.date().optional(),
   }),
   params: z.object({}).optional(),
   query: z.object({}).optional(),
@@ -31,4 +24,3 @@ export const buildVenteRouter = (controller: VenteController) => {
 
   return router;
 };
-

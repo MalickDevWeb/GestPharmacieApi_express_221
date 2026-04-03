@@ -7,84 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  ADMIN
-  PHARMACIEN
-  CAISSIER
-}
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  fullName  String
-  role      UserRole @default(PHARMACIEN)
-  ventes    Vente[]  @relation("SalesByUser")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Client {
   id        String   @id @default(uuid())
+  prenom    String
   nom       String
-  prenom    String?
-  telephone String?
-  email     String?  @unique
+  telephone String
+  email     String   @unique
+  adresse   String?
   ventes    Vente[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Fournisseur {
-  id           String       @id @default(uuid())
-  nom          String
-  telephone    String?
-  email        String?      @unique
-  adresse      String?
-  medicaments  Medicament[]
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id          String       @id @default(uuid())
+  code        String       @unique
+  nom         String
+  adresse     String
+  telephone   String?
+  email       String
+  medicaments Medicament[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Medicament {
-  id             String        @id @default(uuid())
-  nom            String
-  codeBarre      String?       @unique
-  categorie      String?
-  stock          Int           @default(0)
-  prixAchat      Decimal       @db.Decimal(10, 2)
-  prixVente      Decimal       @db.Decimal(10, 2)
-  fournisseurId  String?
-  fournisseur    Fournisseur?  @relation(fields: [fournisseurId], references: [id], onDelete: SetNull)
-  venteItems     VenteItem[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id             String       @id @default(uuid())
+  code           String       @unique
+  libelle        String
+  prix           Decimal      @db.Decimal(10, 2)
+  qteStock       Int          @default(0)
+  dateExpiration DateTime
+  fournisseurId  String
+  fournisseur    Fournisseur  @relation(fields: [fournisseurId], references: [id], onDelete: Restrict)
+  ventes         Vente[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([fournisseurId])
 }
 
 model Vente {
-  id          String      @id @default(uuid())
-  reference   String      @unique
-  dateVente   DateTime    @default(now())
-  montantTotal Decimal    @db.Decimal(10, 2)
-  clientId    String?
-  vendeurId   String?
-  client      Client?     @relation(fields: [clientId], references: [id], onDelete: SetNull)
-  vendeur     User?       @relation("SalesByUser", fields: [vendeurId], references: [id], onDelete: SetNull)
-  items       VenteItem[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-}
-
-model VenteItem {
-  id          String     @id @default(uuid())
-  venteId     String
+  id           String     @id @default(uuid())
+  clientId     String
   medicamentId String
-  quantite    Int
-  prixUnitaire Decimal   @db.Decimal(10, 2)
-  vente       Vente      @relation(fields: [venteId], references: [id], onDelete: Cascade)
-  medicament  Medicament @relation(fields: [medicamentId], references: [id], onDelete: Restrict)
-  createdAt   DateTime   @default(now())
+  quantite     Int
+  dateVente    DateTime   @default(now())
+  montantTotal Decimal    @db.Decimal(10, 2)
+  client       Client     @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  medicament   Medicament @relation(fields: [medicamentId], references: [id], onDelete: Restrict)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  @@unique([venteId, medicamentId])
+  @@index([clientId])
+  @@index([medicamentId])
 }
-

@@ -1,15 +1,23 @@
-import request from "supertest";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { app } from "../../src/app";
+import { healthHandler } from "../../src/routes";
 
-describe("GET /api/v1/health", () => {
+describe("healthHandler", () => {
   it("retourne l'etat de sante de l'API", async () => {
-    const response = await request(app).get("/api/v1/health");
+    const status = vi.fn().mockReturnThis();
+    const json = vi.fn();
+    const res = { status, json } as unknown as Parameters<typeof healthHandler>[1];
 
-    expect(response.status).toBe(200);
-    expect(response.body.success).toBe(true);
-    expect(response.body.data.status).toBe("ok");
+    await healthHandler({} as Parameters<typeof healthHandler>[0], res, vi.fn());
+
+    expect(status).toHaveBeenCalledWith(200);
+    expect(json).toHaveBeenCalledWith({
+      success: true,
+      message: "API GestPharmacie operationnelle.",
+      data: {
+        service: "GestPharmacie API",
+        status: "ok",
+      },
+    });
   });
 });
-

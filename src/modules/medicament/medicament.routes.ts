@@ -7,13 +7,12 @@ import { MedicamentController } from "./medicament.controller";
 
 const createMedicamentSchema = z.object({
   body: z.object({
-    nom: z.string().min(2),
-    codeBarre: z.string().optional(),
-    categorie: z.string().optional(),
-    stock: z.coerce.number().int().nonnegative().optional(),
-    prixAchat: z.coerce.number().nonnegative(),
-    prixVente: z.coerce.number().nonnegative(),
-    fournisseurId: z.string().uuid().optional(),
+    code: z.string().min(2),
+    libelle: z.string().min(2),
+    prix: z.coerce.number().positive(),
+    qteStock: z.coerce.number().int().nonnegative(),
+    dateExpiration: z.coerce.date(),
+    fournisseurId: z.string().uuid(),
   }),
   params: z.object({}).optional(),
   query: z.object({}).optional(),
@@ -27,4 +26,3 @@ export const buildMedicamentRouter = (controller: MedicamentController) => {
 
   return router;
 };
-

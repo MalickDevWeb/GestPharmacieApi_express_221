@@ -1,13 +1,12 @@
 import { db } from "../../config/db";
 
 export interface CreateMedicamentInput {
-  nom: string;
-  codeBarre?: string;
-  categorie?: string;
-  stock?: number;
-  prixAchat: number;
-  prixVente: number;
-  fournisseurId?: string;
+  code: string;
+  libelle: string;
+  prix: number;
+  qteStock: number;
+  dateExpiration: Date;
+  fournisseurId: string;
 }
 
 export class MedicamentService {
@@ -24,11 +23,7 @@ export class MedicamentService {
 
   async create(data: CreateMedicamentInput) {
     return db.medicament.create({
-      data: {
-        ...data,
-        stock: data.stock ?? 0,
-      },
+      data,
     });
   }
 }
-

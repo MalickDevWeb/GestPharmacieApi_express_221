@@ -12,6 +12,8 @@
     "start": "node dist/src/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
+    "agent:codex-guard": "bash scripts/codex-guard.sh",
+    "agent:codex-guard:local": "CODEX_GUARD_FORCE_LOCAL=1 bash scripts/codex-guard.sh",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"

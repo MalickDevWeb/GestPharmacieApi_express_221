@@ -7,10 +7,11 @@ import { ClientController } from "./client.controller";
 
 const createClientSchema = z.object({
   body: z.object({
+    prenom: z.string().min(2),
     nom: z.string().min(2),
-    prenom: z.string().optional(),
-    telephone: z.string().optional(),
-    email: z.string().email().optional(),
+    telephone: z.string().min(2),
+    email: z.string().email(),
+    adresse: z.string().optional(),
   }),
   params: z.object({}).optional(),
   query: z.object({}).optional(),
@@ -24,4 +25,3 @@ export const buildClientRouter = (controller: ClientController) => {
 
   return router;
 };
-
