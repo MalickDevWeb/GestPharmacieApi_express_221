@@ -46,6 +46,9 @@ describe("FournisseurService", () => {
     });
 
     expect(fournisseurModel.findFirst).toHaveBeenCalledWith({
+      select: {
+        id: true,
+      },
       where: {
         code: "FOU-001",
       },
@@ -208,6 +211,14 @@ describe("FournisseurService", () => {
     const result = await service.delete("f1");
 
     expect(fournisseurModel.delete).toHaveBeenCalledWith({
+      include: {
+        medicaments: true,
+        _count: {
+          select: {
+            medicaments: true,
+          },
+        },
+      },
       where: {
         id: "f1",
       },

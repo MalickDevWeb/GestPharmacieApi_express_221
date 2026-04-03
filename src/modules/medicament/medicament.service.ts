@@ -1,39 +1,23 @@
+import { IService } from "../../common/interfaces/IService";
 import { AppError } from "../../common/errors/app-error";
 import { isStrictlyAfterToday } from "../../common/utils/date";
-import { db } from "../../config/db";
+import { CreateMedicamentDTO } from "./dto/CreateMedicamentDTO";
+import { UpdateMedicamentDTO } from "./dto/UpdateMedicamentDTO";
+import { IMedicamentRepository, MedicamentRecord } from "./interfaces/IMedicamentRepository";
+import { IMedicamentService } from "./interfaces/IMedicamentService";
+import { MedicamentRepository } from "./medicament.repository";
 
-export interface CreateMedicamentInput {
-  code: string;
-  libelle: string;
-  prix: number;
-  qteStock: number;
-  dateExpiration: Date;
-  fournisseurId: string;
-}
+export class MedicamentService
+  implements
+    IService<MedicamentRecord, CreateMedicamentDTO, UpdateMedicamentDTO, string>,
+    IMedicamentService
+{
+  constructor(
+    private readonly medicamentRepository: IMedicamentRepository = new MedicamentRepository(),
+  ) {}
 
-export interface UpdateMedicamentInput {
-  code?: string;
-  libelle?: string;
-  prix?: number;
-  qteStock?: number;
-  dateExpiration?: Date;
-  fournisseurId?: string;
-}
-
-export class MedicamentService {
   private async ensureCodeAvailable(code: string, medicamentId?: string) {
-    const existingMedicament = await db.medicament.findFirst({
-      where: {
-        code,
-        ...(medicamentId
-          ? {
-              NOT: {
-                id: medicamentId,
-              },
-            }
-          : {}),
-      },
-    });
+    const existingMedicament = await this.medicamentRepository.findByCode(code, medicamentId);
 
     if (existingMedicament) {
       throw new AppError(409, "Le code medicament existe deja.", {
@@ -43,11 +27,7 @@ export class MedicamentService {
   }
 
   private async ensureFournisseurExists(fournisseurId: string) {
-    const fournisseur = await db.fournisseur.findUnique({
-      where: {
-        id: fournisseurId,
-      },
-    });
+    const fournisseur = await this.medicamentRepository.findFournisseurById(fournisseurId);
 
     if (!fournisseur) {
       throw new AppError(404, "Fournisseur introuvable.", {
@@ -78,53 +58,19 @@ export class MedicamentService {
   }
 
   async list() {
-    return db.medicament.findMany({
-      include: {
-        fournisseur: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    return this.medicamentRepository.list();
   }
 
-  async create(data: CreateMedicamentInput) {
+  async create(data: CreateMedicamentDTO) {
     await this.ensureCodeAvailable(data.code);
     await this.ensureFournisseurExists(data.fournisseurId);
     this.validateBusinessRules(data);
 
-    return db.medicament.create({
-      data,
-      include: {
-        fournisseur: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    return this.medicamentRepository.create(data);
   }
 
   async getById(id: string) {
-    const medicament = await db.medicament.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        fournisseur: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    const medicament = await this.medicamentRepository.findById(id);
 
     if (!medicament) {
       throw new AppError(404, "Medicament introuvable.", {
@@ -135,7 +81,7 @@ export class MedicamentService {
     return medicament;
   }
 
-  async update(id: string, data: UpdateMedicamentInput) {
+  async update(id: string, data: UpdateMedicamentDTO) {
     await this.getById(id);
 
     if (data.code) {
@@ -148,20 +94,7 @@ export class MedicamentService {
 
     this.validateBusinessRules(data);
 
-    return db.medicament.update({
-      where: {
-        id,
-      },
-      data,
-      include: {
-        fournisseur: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    return this.medicamentRepository.update(id, data);
   }
 
   async delete(id: string) {
@@ -178,10 +111,6 @@ export class MedicamentService {
       );
     }
 
-    return db.medicament.delete({
-      where: {
-        id,
-      },
-    });
+    return this.medicamentRepository.delete(id);
   }
 }
