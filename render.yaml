@@ -6,7 +6,7 @@ services:
     branch: prod
     plan: free
     region: oregon
-    autoDeployTrigger: checksPass
+    autoDeployTrigger: off
     buildCommand: npm ci --include=dev && npm run prisma:generate && npm run build
     startCommand: npm run prisma:migrate:deploy && npm run start
     healthCheckPath: /api/v1/health
