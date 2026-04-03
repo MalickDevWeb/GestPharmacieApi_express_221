@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
 import { APP_MESSAGES } from "../../common/messages";
-import { AuthService } from "./auth.service";
+import { IAuthService } from "./interfaces/IAuthService";
 
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: IAuthService) {}
 
   login = async (req: Request, res: Response) => {
     const data = await this.authService.login(req.body);
@@ -24,4 +24,3 @@ export class AuthController {
     });
   };
 }
-
