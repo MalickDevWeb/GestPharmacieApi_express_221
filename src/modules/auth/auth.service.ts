@@ -1,27 +1,14 @@
-import jwt from "jsonwebtoken";
-
 import { UserRole } from "../../common/enums/role.enum";
-import { env } from "../../config/env";
+import { AuthResponseDTO } from "./dto/AuthResponseDTO";
+import { LoginDTO } from "./dto/LoginDTO";
+import { IAuthRepository } from "./interfaces/IAuthRepository";
+import { IAuthService } from "./interfaces/IAuthService";
+import { AuthRepository } from "./auth.repository";
 
-export interface LoginInput {
-  email: string;
-  password: string;
-}
+export class AuthService implements IAuthService {
+  constructor(private readonly authRepository: IAuthRepository = new AuthRepository()) {}
 
-export class AuthService {
-  async login(payload: LoginInput) {
-    const token = jwt.sign({ role: UserRole.ADMIN }, env.JWT_SECRET, {
-      subject: payload.email,
-      expiresIn: "1d",
-    });
-
-    return {
-      token,
-      user: {
-        email: payload.email,
-        role: UserRole.ADMIN,
-      },
-    };
+  async login(payload: LoginDTO): Promise<AuthResponseDTO> {
+    return this.authRepository.createLoginSession(payload.email, UserRole.ADMIN);
   }
 }
-
