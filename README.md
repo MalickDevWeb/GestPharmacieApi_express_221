@@ -42,6 +42,7 @@ pharma-221/
 npm install
 cp .env.example .env
 npm run prisma:generate
+npm run prisma:seed
 npm run dev
 ```
 
@@ -52,6 +53,21 @@ Documentation interactive disponible sur:
 - local: `http://localhost:4000/docs`
 - OpenAPI JSON: `http://localhost:4000/docs/openapi.json`
 - production: `https://pharmacie-221.onrender.com/docs`
+
+## Seed
+
+Le projet contient un seed Prisma coherent avec:
+
+- `10` fournisseurs
+- `10` clients
+- `10` medicaments
+- `10` ventes
+
+Commande:
+
+```bash
+npm run prisma:seed
+```
 
 ## Progression des sprints
 
