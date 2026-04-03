@@ -122,7 +122,7 @@ Le repo contient un blueprint [render.yaml](./render.yaml) pour un deploiement s
 Configuration retenue:
 
 - service web Node branche `prod`
-- auto-deploiement apres succes de la CI
+- deploiement declenche par GitHub Actions apres succes de la CI sur `prod`
 - base Postgres Render referencee automatiquement dans `DATABASE_URL`
 - health check sur `/api/v1/health`
 
@@ -141,3 +141,29 @@ Notes pratiques:
 
 - en local, continue a travailler sur `feature/*`, puis fusionne vers `dev`, puis `prod` pour deploiement
 - `Render` consommera la branche `prod`, ce qui respecte la regle "main n'est jamais touchee"
+
+## CI/CD GitHub Actions
+
+Le workflow [ci.yml](./.github/workflows/ci.yml) gere maintenant:
+
+- CI sur `pull_request` et `push` vers `dev`, `prod` et `main`
+- build TypeScript
+- generation du client Prisma
+- tests unitaires
+- deploiement Render automatique uniquement apres un `push` reussi sur `prod`
+
+Secret GitHub obligatoire:
+
+- `RENDER_DEPLOY_HOOK_URL`
+
+Ou le recuperer:
+
+1. Ouvrir le service Render `pharmacie-221`
+2. Aller dans `Settings`
+3. Copier le `Deploy Hook`
+4. Ajouter la valeur dans `GitHub > Settings > Secrets and variables > Actions`
+
+Important:
+
+- `render.yaml` a `autoDeployTrigger: off` pour eviter les doubles deploiements
+- le deploiement est maintenant pilote par GitHub Actions, pas par l'auto-deploy natif de Render
