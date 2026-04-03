@@ -7,11 +7,24 @@ Base d'API Express + TypeScript + Prisma pour une application de gestion de phar
 ```text
 pharma-221/
 ├── .github/workflows/ci.yml
+├── docker/
 ├── prisma/
+├── render.yaml
 ├── src/
 │   ├── config/
-│   ├── container/
 │   ├── common/
+│   │   ├── constants/
+│   │   ├── enums/
+│   │   ├── errors/
+│   │   ├── interfaces/
+│   │   ├── messages/
+│   │   ├── types/
+│   │   └── utils/
+│   ├── infrastructure/
+│   │   ├── database/
+│   │   ├── external/
+│   │   └── repositories/
+│   ├── container/
 │   ├── middlewares/
 │   ├── modules/
 │   ├── routes/
@@ -32,6 +45,14 @@ cp .env.example .env
 npm run prisma:generate
 npm run dev
 ```
+
+## Progression des sprints
+
+- `Sprint 1` : modele Prisma aligne au sujet.
+- `Sprint 2` : CRUD fournisseurs + suppression protegee.
+- `Sprint 3` : CRUD medicaments + validations metier.
+- `Sprint 4` : CRUD clients + suppression protegee.
+- `Sprint 5` : ventes avec verification client, medicament, expiration, stock, calcul du montant et decrement du stock.
 
 ## Stratégie Git
 
@@ -86,3 +107,30 @@ Comportement de secours:
 
 - si `Codex` distant est inaccessible, le script bascule sur des controles locaux
 - l'etat runtime de `Codex` est redirige vers `.kilo/codex-home/` pour eviter les erreurs de permissions
+
+## Deploiement Render
+
+Le repo contient un blueprint [render.yaml](./render.yaml) pour un deploiement simple sur `Render`.
+
+Configuration retenue:
+
+- service web Node branche `prod`
+- auto-deploiement apres succes de la CI
+- base Postgres Render referencee automatiquement dans `DATABASE_URL`
+- health check sur `/api/v1/health`
+
+Commandes utilisees:
+
+```bash
+Build: npm ci --include=dev && npm run prisma:generate && npm run build
+Start: npm run prisma:migrate:deploy && npm run start
+```
+
+Variables a fournir:
+
+- `JWT_SECRET`
+
+Notes pratiques:
+
+- en local, continue a travailler sur `feature/*`, puis fusionne vers `dev`, puis `prod` pour deploiement
+- `Render` consommera la branche `prod`, ce qui respecte la regle "main n'est jamais touchee"

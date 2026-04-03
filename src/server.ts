@@ -6,8 +6,8 @@ import { logger } from "./config/logger";
 const startServer = async () => {
   await connectDatabase();
 
-  const server = app.listen(env.PORT, () => {
-    logger.info(`GestPharmacie API en ecoute sur le port ${env.PORT}.`);
+  const server = app.listen(env.PORT, "0.0.0.0", () => {
+    logger.info(`GestPharmacie API en ecoute sur 0.0.0.0:${env.PORT}.`);
   });
 
   const shutdown = async () => {
@@ -32,4 +32,3 @@ void startServer().catch(async (error) => {
   await disconnectDatabase();
   process.exit(1);
 });
-

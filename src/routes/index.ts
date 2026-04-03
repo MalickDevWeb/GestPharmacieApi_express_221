@@ -2,7 +2,6 @@ import { RequestHandler, Router } from "express";
 
 import { APP_MESSAGES } from "../common/messages";
 import { buildModuleRouters } from "../container";
-import { buildAuthRouter } from "../modules/auth";
 
 const moduleRouters = buildModuleRouters();
 
@@ -21,7 +20,7 @@ export const healthHandler: RequestHandler = (_req, res) => {
 
 apiRouter.get("/health", healthHandler);
 
-apiRouter.use("/auth", buildAuthRouter());
+apiRouter.use("/auth", moduleRouters.authRouter);
 apiRouter.use("/clients", moduleRouters.clientRouter);
 apiRouter.use("/fournisseurs", moduleRouters.fournisseurRouter);
 apiRouter.use("/medicaments", moduleRouters.medicamentRouter);

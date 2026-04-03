@@ -1,26 +1,17 @@
 import { Router } from "express";
-import { z } from "zod";
 
 import { asyncHandler } from "../../common/utils/async-handler";
 import { validate } from "../../middlewares/validate.middleware";
 import { VenteController } from "./vente.controller";
-
-const createVenteSchema = z.object({
-  body: z.object({
-    clientId: z.string().uuid(),
-    medicamentId: z.string().uuid(),
-    quantite: z.coerce.number().int().positive(),
-    dateVente: z.coerce.date().optional(),
-  }),
-  params: z.object({}).optional(),
-  query: z.object({}).optional(),
-});
+import { VenteValidator } from "./vente.validator";
 
 export const buildVenteRouter = (controller: VenteController) => {
   const router = Router();
+  const validator = new VenteValidator();
 
   router.get("/", asyncHandler(controller.list));
-  router.post("/", validate(createVenteSchema), asyncHandler(controller.create));
+  router.post("/", validate(validator.getCreateSchema()), asyncHandler(controller.create));
+  router.get("/:id", validate(validator.getIdSchema()), asyncHandler(controller.getById));
 
   return router;
 };
