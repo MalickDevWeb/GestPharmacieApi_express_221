@@ -1,0 +1,17 @@
+export const APP_MESSAGES = {
+  HEALTH_OK: "API GestPharmacie operationnelle.",
+  LOGIN_OK: "Connexion effectuee avec succes.",
+  CLIENTS_FETCHED: "Liste des clients recuperee avec succes.",
+  CLIENT_CREATED: "Client cree avec succes.",
+  FOURNISSEURS_FETCHED: "Liste des fournisseurs recuperee avec succes.",
+  FOURNISSEUR_CREATED: "Fournisseur cree avec succes.",
+  MEDICAMENTS_FETCHED: "Liste des medicaments recuperee avec succes.",
+  MEDICAMENT_CREATED: "Medicament cree avec succes.",
+  VENTES_FETCHED: "Liste des ventes recuperee avec succes.",
+  VENTE_CREATED: "Vente creee avec succes.",
+  UNAUTHORIZED: "Acces non autorise.",
+  VALIDATION_FAILED: "Les donnees fournies sont invalides.",
+  NOT_FOUND: "La ressource demandee est introuvable.",
+  SERVER_ERROR: "Une erreur interne est survenue.",
+} as const;
+
