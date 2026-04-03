@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  prenom    String
+  nom       String
+  telephone String
+  email     String   @unique
+  adresse   String?
+  ventes    Vente[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Fournisseur {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  nom         String
+  adresse     String
+  telephone   String?
+  email       String
+  medicaments Medicament[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Medicament {
+  id             String       @id @default(uuid())
+  code           String       @unique
+  libelle        String
+  prix           Decimal      @db.Decimal(10, 2)
+  qteStock       Int          @default(0)
+  dateExpiration DateTime
+  fournisseurId  String
+  fournisseur    Fournisseur  @relation(fields: [fournisseurId], references: [id], onDelete: Restrict)
+  ventes         Vente[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([fournisseurId])
+}
+
+model Vente {
+  id           String     @id @default(uuid())
+  clientId     String
+  medicamentId String
+  quantite     Int
+  dateVente    DateTime   @default(now())
+  montantTotal Decimal    @db.Decimal(10, 2)
+  client       Client     @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  medicament   Medicament @relation(fields: [medicamentId], references: [id], onDelete: Restrict)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([clientId])
+  @@index([medicamentId])
+}
