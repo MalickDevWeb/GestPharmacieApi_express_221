@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 
+import { IController } from "../../common/interfaces/IController";
 import { APP_MESSAGES } from "../../common/messages";
-import { ClientService } from "./client.service";
+import { IClientService } from "./interfaces/IClientService";
 
-export class ClientController {
-  constructor(private readonly clientService: ClientService) {}
+export class ClientController implements IController {
+  constructor(private readonly clientService: IClientService) {}
 
   list = async (_req: Request, res: Response) => {
     const data = await this.clientService.list();

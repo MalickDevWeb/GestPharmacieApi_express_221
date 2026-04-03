@@ -1,36 +1,22 @@
+import { IService } from "../../common/interfaces/IService";
 import { AppError } from "../../common/errors/app-error";
-import { db } from "../../config/db";
+import { CreateFournisseurDTO } from "./dto/CreateFournisseurDTO";
+import { UpdateFournisseurDTO } from "./dto/UpdateFournisseurDTO";
+import { IFournisseurRepository, FournisseurRecord } from "./interfaces/IFournisseurRepository";
+import { IFournisseurService } from "./interfaces/IFournisseurService";
+import { FournisseurRepository } from "./fournisseur.repository";
 
-export interface CreateFournisseurInput {
-  code: string;
-  nom: string;
-  adresse: string;
-  telephone?: string;
-  email: string;
-}
+export class FournisseurService
+  implements
+    IService<FournisseurRecord, CreateFournisseurDTO, UpdateFournisseurDTO, string>,
+    IFournisseurService
+{
+  constructor(
+    private readonly fournisseurRepository: IFournisseurRepository = new FournisseurRepository(),
+  ) {}
 
-export interface UpdateFournisseurInput {
-  code?: string;
-  nom?: string;
-  adresse?: string;
-  telephone?: string;
-  email?: string;
-}
-
-export class FournisseurService {
   private async ensureCodeAvailable(code: string, fournisseurId?: string) {
-    const existingFournisseur = await db.fournisseur.findFirst({
-      where: {
-        code,
-        ...(fournisseurId
-          ? {
-              NOT: {
-                id: fournisseurId,
-              },
-            }
-          : {}),
-      },
-    });
+    const existingFournisseur = await this.fournisseurRepository.findByCode(code, fournisseurId);
 
     if (existingFournisseur) {
       throw new AppError(409, "Le code fournisseur existe deja.", {
@@ -40,42 +26,17 @@ export class FournisseurService {
   }
 
   async list() {
-    return db.fournisseur.findMany({
-      include: {
-        _count: {
-          select: {
-            medicaments: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    return this.fournisseurRepository.list();
   }
 
-  async create(data: CreateFournisseurInput) {
+  async create(data: CreateFournisseurDTO) {
     await this.ensureCodeAvailable(data.code);
 
-    return db.fournisseur.create({
-      data,
-    });
+    return this.fournisseurRepository.create(data);
   }
 
   async getById(id: string) {
-    const fournisseur = await db.fournisseur.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        medicaments: true,
-        _count: {
-          select: {
-            medicaments: true,
-          },
-        },
-      },
-    });
+    const fournisseur = await this.fournisseurRepository.findById(id);
 
     if (!fournisseur) {
       throw new AppError(404, "Fournisseur introuvable.", {
@@ -86,27 +47,14 @@ export class FournisseurService {
     return fournisseur;
   }
 
-  async update(id: string, data: UpdateFournisseurInput) {
+  async update(id: string, data: UpdateFournisseurDTO) {
     await this.getById(id);
 
     if (data.code) {
       await this.ensureCodeAvailable(data.code, id);
     }
 
-    return db.fournisseur.update({
-      where: {
-        id,
-      },
-      data,
-      include: {
-        medicaments: true,
-        _count: {
-          select: {
-            medicaments: true,
-          },
-        },
-      },
-    });
+    return this.fournisseurRepository.update(id, data);
   }
 
   async delete(id: string) {
@@ -123,10 +71,6 @@ export class FournisseurService {
       );
     }
 
-    return db.fournisseur.delete({
-      where: {
-        id,
-      },
-    });
+    return this.fournisseurRepository.delete(id);
   }
 }
