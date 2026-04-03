@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 
+import { IController } from "../../common/interfaces/IController";
 import { APP_MESSAGES } from "../../common/messages";
-import { MedicamentService } from "./medicament.service";
+import { IMedicamentService } from "./interfaces/IMedicamentService";
 
-export class MedicamentController {
-  constructor(private readonly medicamentService: MedicamentService) {}
+export class MedicamentController implements IController {
+  constructor(private readonly medicamentService: IMedicamentService) {}
 
   list = async (_req: Request, res: Response) => {
     const data = await this.medicamentService.list();

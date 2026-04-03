@@ -1,36 +1,18 @@
+import { IService } from "../../common/interfaces/IService";
 import { AppError } from "../../common/errors/app-error";
-import { db } from "../../config/db";
+import { CreateClientDTO } from "./dto/CreateClientDTO";
+import { UpdateClientDTO } from "./dto/UpdateClientDTO";
+import { ClientRecord, IClientRepository } from "./interfaces/IClientRepository";
+import { IClientService } from "./interfaces/IClientService";
+import { ClientRepository } from "./client.repository";
 
-export interface CreateClientInput {
-  prenom: string;
-  nom: string;
-  telephone: string;
-  email: string;
-  adresse?: string;
-}
+export class ClientService
+  implements IService<ClientRecord, CreateClientDTO, UpdateClientDTO, string>, IClientService
+{
+  constructor(private readonly clientRepository: IClientRepository = new ClientRepository()) {}
 
-export interface UpdateClientInput {
-  prenom?: string;
-  nom?: string;
-  telephone?: string;
-  email?: string;
-  adresse?: string;
-}
-
-export class ClientService {
   private async ensureEmailAvailable(email: string, clientId?: string) {
-    const existingClient = await db.client.findFirst({
-      where: {
-        email,
-        ...(clientId
-          ? {
-              NOT: {
-                id: clientId,
-              },
-            }
-          : {}),
-      },
-    });
+    const existingClient = await this.clientRepository.findByEmail(email, clientId);
 
     if (existingClient) {
       throw new AppError(409, "L'email client existe deja.", {
@@ -40,49 +22,17 @@ export class ClientService {
   }
 
   async list() {
-    return db.client.findMany({
-      include: {
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    return this.clientRepository.list();
   }
 
-  async create(data: CreateClientInput) {
+  async create(data: CreateClientDTO) {
     await this.ensureEmailAvailable(data.email);
 
-    return db.client.create({
-      data,
-      include: {
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    return this.clientRepository.create(data);
   }
 
   async getById(id: string) {
-    const client = await db.client.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        ventes: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    const client = await this.clientRepository.findById(id);
 
     if (!client) {
       throw new AppError(404, "Client introuvable.", {
@@ -93,27 +43,14 @@ export class ClientService {
     return client;
   }
 
-  async update(id: string, data: UpdateClientInput) {
+  async update(id: string, data: UpdateClientDTO) {
     await this.getById(id);
 
     if (data.email) {
       await this.ensureEmailAvailable(data.email, id);
     }
 
-    return db.client.update({
-      where: {
-        id,
-      },
-      data,
-      include: {
-        ventes: true,
-        _count: {
-          select: {
-            ventes: true,
-          },
-        },
-      },
-    });
+    return this.clientRepository.update(id, data);
   }
 
   async delete(id: string) {
@@ -126,10 +63,6 @@ export class ClientService {
       });
     }
 
-    return db.client.delete({
-      where: {
-        id,
-      },
-    });
+    return this.clientRepository.delete(id);
   }
 }

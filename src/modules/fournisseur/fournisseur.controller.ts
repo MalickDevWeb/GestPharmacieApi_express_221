@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 
+import { IController } from "../../common/interfaces/IController";
 import { APP_MESSAGES } from "../../common/messages";
-import { FournisseurService } from "./fournisseur.service";
+import { IFournisseurService } from "./interfaces/IFournisseurService";
 
-export class FournisseurController {
-  constructor(private readonly fournisseurService: FournisseurService) {}
+export class FournisseurController implements IController {
+  constructor(private readonly fournisseurService: IFournisseurService) {}
 
   list = async (_req: Request, res: Response) => {
     const data = await this.fournisseurService.list();
