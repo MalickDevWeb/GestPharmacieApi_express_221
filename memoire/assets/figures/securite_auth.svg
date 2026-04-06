@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Flux de securite et authentification</title>
+  <desc id="desc">Flux simplifie d'authentification JWT et controles associes dans le backend et le frontend.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .box { fill: #fafafa; stroke: #111111; stroke-width: 2; rx: 20; ry: 20; }
+      .group { fill: #efefef; stroke: #111111; stroke-width: 2; rx: 20; ry: 20; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 15px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .arrow { stroke: #111111; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="684" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Flux de securite et authentification</text>
+  <text x="60" y="102" class="subtitle">Le systeme combine validation d'entree, generation de JWT et verification du bearer token sur les routes protegees.</text>
+
+  <rect x="70" y="250" width="180" height="120" class="box"/>
+  <text x="110" y="300" class="label">Frontend</text>
+  <text x="100" y="332" class="text">Formulaire de connexion</text>
+
+  <rect x="320" y="150" width="240" height="120" class="group"/>
+  <text x="390" y="198" class="label">Validation</text>
+  <text x="350" y="230" class="text">Zod controle email et mot de passe</text>
+
+  <rect x="320" y="320" width="240" height="120" class="group"/>
+  <text x="390" y="368" class="label">AuthService</text>
+  <text x="346" y="400" class="text">Creation d'une session JWT</text>
+
+  <rect x="640" y="150" width="240" height="120" class="group"/>
+  <text x="700" y="198" class="label">AuthRepository</text>
+  <text x="668" y="230" class="text">jwt.sign(role, secret, 1 jour)</text>
+
+  <rect x="640" y="320" width="240" height="120" class="group"/>
+  <text x="682" y="368" class="label">Frontend local</text>
+  <text x="668" y="400" class="text">Stockage token dans localStorage</text>
+
+  <rect x="960" y="235" width="170" height="150" class="box"/>
+  <text x="986" y="286" class="label">Route protegee</text>
+  <text x="984" y="318" class="text">Bearer token</text>
+  <text x="984" y="348" class="text">authMiddleware</text>
+
+  <rect x="240" y="540" width="720" height="100" class="box"/>
+  <text x="278" y="584" class="label">Points de controle associes</text>
+  <text x="278" y="618" class="text">helmet, cors, parse JSON, middleware d'erreur, validation Zod des DTO, verification JWT sur /auth/me.</text>
+
+  <path d="M250 310 L318 210" class="arrow"/>
+  <path d="M250 310 L318 380" class="arrow"/>
+  <path d="M560 210 L638 210" class="arrow"/>
+  <path d="M560 380 L638 380" class="arrow"/>
+  <path d="M880 210 L958 286" class="arrow"/>
+  <path d="M880 380 L958 336" class="arrow"/>
+  <path d="M1045 385 L1045 538" class="arrow"/>
+
+  <text x="70" y="676" class="small">Limite observee : le backend valide le format des identifiants et emet un JWT, mais ne s'appuie pas encore sur une table utilisateurs persistante ni sur une verification reelle du mot de passe.</text>
+</svg>

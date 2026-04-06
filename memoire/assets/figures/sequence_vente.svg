@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
+  <title id="title">Sequence de creation d'une vente</title>
+  <desc id="desc">Diagramme de sequence du service de vente avec verification du client, du medicament, du stock et creation transactionnelle.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .actor { fill: #efefef; stroke: #111111; stroke-width: 2; rx: 14; ry: 14; }
+      .label { font: 700 18px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .line { stroke: #666666; stroke-width: 1.5; stroke-dasharray: 6 6; }
+      .msg { stroke: #111111; stroke-width: 2.1; fill: none; marker-end: url(#arrow); }
+      .step { fill: #fafafa; stroke: #111111; stroke-width: 1.5; rx: 10; ry: 10; }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="744" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Sequence de creation d'une vente</text>
+  <text x="60" y="102" class="subtitle">Le service de vente encapsule les controles critiques dans une transaction Prisma.</text>
+
+  <rect x="70" y="130" width="150" height="48" class="actor"/>
+  <rect x="320" y="130" width="170" height="48" class="actor"/>
+  <rect x="590" y="130" width="180" height="48" class="actor"/>
+  <rect x="870" y="130" width="170" height="48" class="actor"/>
+
+  <text x="116" y="160" class="label">Client HTTP</text>
+  <text x="370" y="160" class="label">Controller</text>
+  <text x="639" y="160" class="label">VenteService</text>
+  <text x="912" y="160" class="label">Prisma DB</text>
+
+  <line x1="145" y1="178" x2="145" y2="700" class="line"/>
+  <line x1="405" y1="178" x2="405" y2="700" class="line"/>
+  <line x1="680" y1="178" x2="680" y2="700" class="line"/>
+  <line x1="955" y1="178" x2="955" y2="700" class="line"/>
+
+  <path d="M145 230 L403 230" class="msg"/>
+  <text x="186" y="220" class="text">POST /ventes</text>
+
+  <path d="M405 280 L678 280" class="msg"/>
+  <text x="470" y="270" class="text">service.create(payload)</text>
+
+  <path d="M680 330 L953 330" class="msg"/>
+  <text x="730" y="320" class="text">findClientById</text>
+
+  <rect x="720" y="348" width="180" height="34" class="step"/>
+  <text x="742" y="370" class="text">404 si client absent</text>
+
+  <path d="M680 430 L953 430" class="msg"/>
+  <text x="715" y="420" class="text">findMedicamentById</text>
+
+  <rect x="708" y="448" width="210" height="54" class="step"/>
+  <text x="726" y="470" class="text">Refus si medicament absent,</text>
+  <text x="726" y="490" class="text">expire ou stock insuffisant</text>
+
+  <path d="M680 560 L953 560" class="msg"/>
+  <text x="712" y="550" class="text">decrementMedicamentStock</text>
+
+  <path d="M680 620 L953 620" class="msg"/>
+  <text x="730" y="610" class="text">create vente</text>
+
+  <path d="M680 680 L403 680" class="msg"/>
+  <text x="500" y="670" class="text">vente creee + montant total</text>
+
+  <path d="M405 720 L147 720" class="msg"/>
+  <text x="212" y="710" class="text">201 reponse normalisee</text>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1298" role="img" aria-labelledby="title desc">
+  <title id="title">Capture reelle du module Medicaments</title>
+  <desc id="desc">Le module verifie le fournisseur, le prix, le stock et la date d expiration avant ecriture.</desc>
+  <defs>
+    <style>
+
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .panel { fill: #fafafa; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .panelhead { fill: #ececec; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .paneltitle { font: 700 16px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .code { font: 14px 'Liberation Mono', 'DejaVu Sans Mono', monospace; fill: #111111; }
+      .note { font: 400 12px 'Liberation Sans', Arial, sans-serif; fill: #666666; }
+
+    </style>
+  </defs>
+  <rect x="18" y="18" width="1364" height="1262" class="frame"/>
+  <text x="36" y="68" class="title">Capture reelle du module Medicaments</text>
+  <text x="36" y="96" class="subtitle">Le module verifie le fournisseur, le prix, le stock et la date d expiration avant ecriture.</text>
+  <text x="36" y="118" class="note">Capture composee a partir des fichiers reels du depot GesPharmacie.</text>
+  <rect x="36" y="134" width="1328" height="604" class="panel"/>
+  <rect x="36" y="134" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="162" class="paneltitle">src/modules/medicament/medicament.service.ts | lignes 29-57</text>
+  <text x="54" y="196" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 29 |   private async ensureFournisseurExists(fournisseurId: string) {</tspan>
+    <tspan x="54" dy="18"> 30 |     const fournisseur = await this.medicamentRepository.findFournisseurById(fournisseurId);</tspan>
+    <tspan x="54" dy="18"> 31 | </tspan>
+    <tspan x="54" dy="18"> 32 |     if (!fournisseur) {</tspan>
+    <tspan x="54" dy="18"> 33 |       throw new AppError(404, "Fournisseur introuvable.", {</tspan>
+    <tspan x="54" dy="18"> 34 |         fournisseurId,</tspan>
+    <tspan x="54" dy="18"> 35 |       });</tspan>
+    <tspan x="54" dy="18"> 36 |     }</tspan>
+    <tspan x="54" dy="18"> 37 |   }</tspan>
+    <tspan x="54" dy="18"> 38 | </tspan>
+    <tspan x="54" dy="18"> 39 |   private validateBusinessRules(data: {</tspan>
+    <tspan x="54" dy="18"> 40 |     prix?: number;</tspan>
+    <tspan x="54" dy="18"> 41 |     qteStock?: number;</tspan>
+    <tspan x="54" dy="18"> 42 |     dateExpiration?: Date;</tspan>
+    <tspan x="54" dy="18"> 43 |   }) {</tspan>
+    <tspan x="54" dy="18"> 44 |     if (data.prix !== undefined &amp;&amp; data.prix &lt;= 0) {</tspan>
+    <tspan x="54" dy="18"> 45 |       throw new AppError(422, "Le prix du medicament doit etre strictement superieur a 0.");</tspan>
+    <tspan x="54" dy="18"> 46 |     }</tspan>
+    <tspan x="54" dy="18"> 47 | </tspan>
+    <tspan x="54" dy="18"> 48 |     if (data.qteStock !== undefined &amp;&amp; data.qteStock &lt; 0) {</tspan>
+    <tspan x="54" dy="18"> 49 |       throw new AppError(422, "La quantite en stock doit etre positive ou nulle.");</tspan>
+    <tspan x="54" dy="18"> 50 |     }</tspan>
+    <tspan x="54" dy="18"> 51 | </tspan>
+    <tspan x="54" dy="18"> 52 |     if (data.dateExpiration &amp;&amp; !isStrictlyAfterToday(data.dateExpiration)) {</tspan>
+    <tspan x="54" dy="18"> 53 |       throw new AppError(</tspan>
+    <tspan x="54" dy="18"> 54 |         422,</tspan>
+    <tspan x="54" dy="18"> 55 |         "La date d'expiration doit etre strictement superieure a aujourd'hui.",</tspan>
+    <tspan x="54" dy="18"> 56 |       );</tspan>
+    <tspan x="54" dy="18"> 57 |     }</tspan>
+  </text>
+  <rect x="36" y="762" width="1328" height="208" class="panel"/>
+  <rect x="36" y="762" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="790" class="paneltitle">src/modules/medicament/medicament.service.ts | lignes 64-70</text>
+  <text x="54" y="824" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 64 |   async create(data: CreateMedicamentDTO) {</tspan>
+    <tspan x="54" dy="18"> 65 |     await this.ensureCodeAvailable(data.code);</tspan>
+    <tspan x="54" dy="18"> 66 |     await this.ensureFournisseurExists(data.fournisseurId);</tspan>
+    <tspan x="54" dy="18"> 67 |     this.validateBusinessRules(data);</tspan>
+    <tspan x="54" dy="18"> 68 | </tspan>
+    <tspan x="54" dy="18"> 69 |     return this.medicamentRepository.create(data);</tspan>
+    <tspan x="54" dy="18"> 70 |   }</tspan>
+  </text>
+  <rect x="36" y="994" width="1328" height="244" class="panel"/>
+  <rect x="36" y="994" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="1022" class="paneltitle">src/modules/medicament/medicament.repository.ts | lignes 64-72</text>
+  <text x="54" y="1056" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 64 |   async findFournisseurById(id: string): Promise&lt;{ id: string } | null&gt; {</tspan>
+    <tspan x="54" dy="18"> 65 |     return db.fournisseur.findUnique({</tspan>
+    <tspan x="54" dy="18"> 66 |       where: {</tspan>
+    <tspan x="54" dy="18"> 67 |         id,</tspan>
+    <tspan x="54" dy="18"> 68 |       },</tspan>
+    <tspan x="54" dy="18"> 69 |       select: {</tspan>
+    <tspan x="54" dy="18"> 70 |         id: true,</tspan>
+    <tspan x="54" dy="18"> 71 |       },</tspan>
+    <tspan x="54" dy="18"> 72 |     });</tspan>
+  </text>
+</svg>

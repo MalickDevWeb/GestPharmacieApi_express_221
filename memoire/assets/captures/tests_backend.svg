@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Capture technique des tests backend</title>
+  <desc id="desc">Representation de la sortie reelle de la suite de tests unitaires du backend.</desc>
+  <defs>
+    <style>
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .bar { fill: #ececec; stroke: #111111; stroke-width: 2; }
+      .dot { fill: #111111; }
+      .title { font: 700 24px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .mono { font: 400 18px 'Liberation Mono', 'Courier New', monospace; fill: #111111; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+    </style>
+  </defs>
+
+  <rect x="24" y="24" width="1152" height="772" class="frame"/>
+  <rect x="24" y="24" width="1152" height="54" class="bar"/>
+  <circle cx="58" cy="51" r="7" class="dot"/>
+  <circle cx="82" cy="51" r="7" class="dot" opacity="0.65"/>
+  <circle cx="106" cy="51" r="7" class="dot" opacity="0.35"/>
+  <text x="140" y="58" class="title">Capture technique 2. Sortie des tests unitaires</text>
+
+  <text x="58" y="120" class="mono">&gt; gestpharmacieapi-express-221@0.1.0 test</text>
+  <text x="58" y="152" class="mono">&gt; vitest run</text>
+  <text x="58" y="216" class="mono">RUN  v2.1.9 /home/.../GesPharmacie</text>
+  <text x="58" y="270" class="mono">✓ tests/unit/vente.service.test.ts (5 tests)</text>
+  <text x="58" y="302" class="mono">✓ tests/unit/medicament.service.test.ts (6 tests)</text>
+  <text x="58" y="334" class="mono">✓ tests/unit/client.service.test.ts (5 tests)</text>
+  <text x="58" y="366" class="mono">✓ tests/unit/fournisseur.service.test.ts (7 tests)</text>
+  <text x="58" y="398" class="mono">✓ tests/unit/auth.service.test.ts (1 test)</text>
+  <text x="58" y="430" class="mono">✓ tests/unit/docs.test.ts (3 tests)</text>
+  <text x="58" y="462" class="mono">✓ tests/unit/app.test.ts (1 test)</text>
+  <text x="58" y="526" class="mono">Test Files  7 passed (7)</text>
+  <text x="58" y="558" class="mono">Tests      28 passed (28)</text>
+  <text x="58" y="590" class="mono">Duration   2.72s</text>
+
+  <text x="58" y="652" class="small">Source: execution locale reelle de npm test durant la preparation du memoire.</text>
+</svg>

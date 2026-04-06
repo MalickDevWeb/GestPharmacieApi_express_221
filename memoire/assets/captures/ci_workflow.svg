@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Capture technique du workflow CI</title>
+  <desc id="desc">Extrait du workflow GitHub Actions present dans le depot.</desc>
+  <defs>
+    <style>
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .bar { fill: #ececec; stroke: #111111; stroke-width: 2; }
+      .dot { fill: #111111; }
+      .title { font: 700 24px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .mono { font: 400 17px 'Liberation Mono', 'Courier New', monospace; fill: #111111; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+    </style>
+  </defs>
+
+  <rect x="24" y="24" width="1152" height="852" class="frame"/>
+  <rect x="24" y="24" width="1152" height="54" class="bar"/>
+  <circle cx="58" cy="51" r="7" class="dot"/>
+  <circle cx="82" cy="51" r="7" class="dot" opacity="0.65"/>
+  <circle cx="106" cy="51" r="7" class="dot" opacity="0.35"/>
+  <text x="140" y="58" class="title">Capture technique 3. Extrait du workflow GitHub Actions</text>
+
+  <text x="58" y="118" class="mono">name: ci</text>
+  <text x="58" y="146" class="mono">on:</text>
+  <text x="58" y="174" class="mono">  push:</text>
+  <text x="58" y="202" class="mono">    branches: [main, prod, dev]</text>
+  <text x="58" y="230" class="mono">  pull_request:</text>
+  <text x="58" y="286" class="mono">jobs:</text>
+  <text x="58" y="314" class="mono">  test:</text>
+  <text x="58" y="342" class="mono">    runs-on: ubuntu-latest</text>
+  <text x="58" y="370" class="mono">    steps:</text>
+  <text x="58" y="398" class="mono">      - uses: actions/checkout@v4</text>
+  <text x="58" y="426" class="mono">      - uses: actions/setup-node@v4</text>
+  <text x="58" y="454" class="mono">      - run: npm ci</text>
+  <text x="58" y="482" class="mono">      - run: npm run prisma:generate</text>
+  <text x="58" y="510" class="mono">      - run: npm run build</text>
+  <text x="58" y="538" class="mono">      - run: npm run test</text>
+  <text x="58" y="594" class="mono">  deploy:</text>
+  <text x="58" y="622" class="mono">    needs: test</text>
+  <text x="58" y="650" class="mono">    if: push sur refs/heads/prod</text>
+  <text x="58" y="678" class="mono">    run: curl POST $RENDER_DEPLOY_HOOK_URL</text>
+
+  <text x="58" y="736" class="small">Source: .github/workflows/ci.yml du depot.</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture globale de la solution</title>
+  <desc id="desc">Vue d'ensemble backend montrant les consommateurs HTTP, l'API Express, PostgreSQL, la documentation technique et la chaine de deploiement.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .box { fill: #fafafa; stroke: #111111; stroke-width: 2; rx: 20; ry: 20; }
+      .group { fill: #f2f2f2; stroke: #111111; stroke-width: 2; rx: 24; ry: 24; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 16px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .arrow { stroke: #111111; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="684" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Architecture globale observee</text>
+  <text x="60" y="102" class="subtitle">Le perimetre retenu se limite au backend: l'API, sa persistance, sa documentation et sa chaine d'exploitation.</text>
+
+  <rect x="70" y="220" width="200" height="220" class="box"/>
+  <text x="97" y="270" class="label">Consommateurs HTTP</text>
+  <text x="98" y="320" class="text">- Client API</text>
+  <text x="98" y="354" class="text">- Outil de test</text>
+  <text x="98" y="388" class="text">- Swagger UI</text>
+
+  <rect x="340" y="160" width="420" height="330" class="group"/>
+  <text x="452" y="208" class="label">Backend Express API</text>
+  <text x="372" y="258" class="text">- Express 4 + TypeScript</text>
+  <text x="372" y="292" class="text">- Point d'entree: app.ts et server.ts</text>
+  <text x="372" y="326" class="text">- Routes versionnees /api/v1</text>
+  <text x="372" y="360" class="text">- Modules auth, clients, fournisseurs, medicaments, ventes</text>
+  <text x="372" y="394" class="text">- Validations Zod, middlewares et gestion d'erreurs</text>
+  <text x="372" y="428" class="text">- JWT, logs Pino et reponses JSON normalisees</text>
+
+  <rect x="840" y="220" width="230" height="220" class="box"/>
+  <text x="882" y="270" class="label">Persistance</text>
+  <text x="864" y="320" class="text">- PostgreSQL</text>
+  <text x="864" y="354" class="text">- Prisma ORM</text>
+  <text x="864" y="388" class="text">- Migrations et seed</text>
+
+  <rect x="220" y="540" width="280" height="110" class="box"/>
+  <text x="280" y="585" class="label">Documentation API</text>
+  <text x="252" y="620" class="text">Swagger UI et document OpenAPI</text>
+
+  <rect x="560" y="540" width="520" height="110" class="box"/>
+  <text x="730" y="585" class="label">CI/CD et exploitation</text>
+  <text x="592" y="620" class="text">GitHub Actions, Render, Docker local et health check /api/v1/health</text>
+
+  <path d="M270 330 L338 330" class="arrow"/>
+  <path d="M760 330 L838 330" class="arrow"/>
+  <path d="M360 490 L360 538" class="arrow"/>
+  <path d="M820 490 L820 538" class="arrow"/>
+</svg>

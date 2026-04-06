@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1226" role="img" aria-labelledby="title desc">
+  <title id="title">Capture reelle du module Clients</title>
+  <desc id="desc">Le module combine surface CRUD, controle d unicite email et protection de suppression.</desc>
+  <defs>
+    <style>
+
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .panel { fill: #fafafa; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .panelhead { fill: #ececec; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .paneltitle { font: 700 16px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .code { font: 14px 'Liberation Mono', 'DejaVu Sans Mono', monospace; fill: #111111; }
+      .note { font: 400 12px 'Liberation Sans', Arial, sans-serif; fill: #666666; }
+
+    </style>
+  </defs>
+  <rect x="18" y="18" width="1364" height="1190" class="frame"/>
+  <text x="36" y="68" class="title">Capture reelle du module Clients</text>
+  <text x="36" y="96" class="subtitle">Le module combine surface CRUD, controle d unicite email et protection de suppression.</text>
+  <text x="36" y="118" class="note">Capture composee a partir des fichiers reels du depot GesPharmacie.</text>
+  <rect x="36" y="134" width="1328" height="280" class="panel"/>
+  <rect x="36" y="134" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="162" class="paneltitle">src/modules/client/client.routes.ts | lignes 8-18</text>
+  <text x="54" y="196" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  8 | export const buildClientRouter = (controller: ClientController) =&gt; {</tspan>
+    <tspan x="54" dy="18">  9 |   const router = Router();</tspan>
+    <tspan x="54" dy="18"> 10 |   const validator = new ClientValidator();</tspan>
+    <tspan x="54" dy="18"> 11 | </tspan>
+    <tspan x="54" dy="18"> 12 |   router.get("/", asyncHandler(controller.list));</tspan>
+    <tspan x="54" dy="18"> 13 |   router.post("/", validate(validator.getCreateSchema()), asyncHandler(controller.create));</tspan>
+    <tspan x="54" dy="18"> 14 |   router.get("/:id", validate(validator.getIdSchema()), asyncHandler(controller.getById));</tspan>
+    <tspan x="54" dy="18"> 15 |   router.patch("/:id", validate(validator.getUpdateSchema()), asyncHandler(controller.update));</tspan>
+    <tspan x="54" dy="18"> 16 |   router.delete("/:id", validate(validator.getIdSchema()), asyncHandler(controller.delete));</tspan>
+    <tspan x="54" dy="18"> 17 | </tspan>
+    <tspan x="54" dy="18"> 18 |   return router;</tspan>
+  </text>
+  <rect x="36" y="438" width="1328" height="406" class="panel"/>
+  <rect x="36" y="438" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="466" class="paneltitle">src/modules/client/client.service.ts | lignes 14-31</text>
+  <text x="54" y="500" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 14 |   private async ensureEmailAvailable(email: string, clientId?: string) {</tspan>
+    <tspan x="54" dy="18"> 15 |     const existingClient = await this.clientRepository.findByEmail(email, clientId);</tspan>
+    <tspan x="54" dy="18"> 16 | </tspan>
+    <tspan x="54" dy="18"> 17 |     if (existingClient) {</tspan>
+    <tspan x="54" dy="18"> 18 |       throw new AppError(409, "L'email client existe deja.", {</tspan>
+    <tspan x="54" dy="18"> 19 |         email,</tspan>
+    <tspan x="54" dy="18"> 20 |       });</tspan>
+    <tspan x="54" dy="18"> 21 |     }</tspan>
+    <tspan x="54" dy="18"> 22 |   }</tspan>
+    <tspan x="54" dy="18"> 23 | </tspan>
+    <tspan x="54" dy="18"> 24 |   async list() {</tspan>
+    <tspan x="54" dy="18"> 25 |     return this.clientRepository.list();</tspan>
+    <tspan x="54" dy="18"> 26 |   }</tspan>
+    <tspan x="54" dy="18"> 27 | </tspan>
+    <tspan x="54" dy="18"> 28 |   async create(data: CreateClientDTO) {</tspan>
+    <tspan x="54" dy="18"> 29 |     await this.ensureEmailAvailable(data.email);</tspan>
+    <tspan x="54" dy="18"> 30 | </tspan>
+    <tspan x="54" dy="18"> 31 |     return this.clientRepository.create(data);</tspan>
+  </text>
+  <rect x="36" y="868" width="1328" height="298" class="panel"/>
+  <rect x="36" y="868" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="896" class="paneltitle">src/modules/client/client.service.ts | lignes 56-67</text>
+  <text x="54" y="930" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 56 |   async delete(id: string) {</tspan>
+    <tspan x="54" dy="18"> 57 |     const client = await this.getById(id);</tspan>
+    <tspan x="54" dy="18"> 58 | </tspan>
+    <tspan x="54" dy="18"> 59 |     if (client._count.ventes &gt; 0) {</tspan>
+    <tspan x="54" dy="18"> 60 |       throw new AppError(409, "Suppression interdite: ce client est associe a des ventes.", {</tspan>
+    <tspan x="54" dy="18"> 61 |         clientId: id,</tspan>
+    <tspan x="54" dy="18"> 62 |         ventesCount: client._count.ventes,</tspan>
+    <tspan x="54" dy="18"> 63 |       });</tspan>
+    <tspan x="54" dy="18"> 64 |     }</tspan>
+    <tspan x="54" dy="18"> 65 | </tspan>
+    <tspan x="54" dy="18"> 66 |     return this.clientRepository.delete(id);</tspan>
+    <tspan x="54" dy="18"> 67 |   }</tspan>
+  </text>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Strategie Git du projet</title>
+  <desc id="desc">Representation de la hierarchie des branches observees dans le depot avec branches de fonctionnalite, integration, stabilisation et reference.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .lane { fill: none; stroke: #111111; stroke-width: 3; }
+      .branch { fill: #f8f8f8; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .branchhead { fill: #e3e3e3; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 16px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .arrow { stroke: #111111; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="684" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Strategie de branches observee</text>
+  <text x="60" y="102" class="subtitle">Le README et l'historique Git decrivent un flux allant des branches feature vers dev, puis prod, sans developpement direct sur main.</text>
+
+  <line x1="600" y1="160" x2="600" y2="620" class="lane"/>
+  <line x1="360" y1="260" x2="600" y2="260" class="lane"/>
+  <line x1="320" y1="340" x2="600" y2="340" class="lane"/>
+  <line x1="280" y1="420" x2="600" y2="420" class="lane"/>
+  <line x1="240" y1="500" x2="600" y2="500" class="lane"/>
+
+  <rect x="470" y="130" width="260" height="74" class="branchhead"/>
+  <text x="520" y="174" class="label">main</text>
+  <text x="520" y="196" class="subtitle">Branche de reference</text>
+
+  <rect x="470" y="240" width="260" height="74" class="branch"/>
+  <text x="527" y="284" class="label">prod</text>
+  <text x="495" y="306" class="subtitle">Versions stables prêtes au deploiement</text>
+
+  <rect x="470" y="350" width="260" height="74" class="branch"/>
+  <text x="534" y="394" class="label">dev</text>
+  <text x="482" y="416" class="subtitle">Branche d'integration du developpement</text>
+
+  <rect x="90" y="226" width="230" height="68" class="branch"/>
+  <text x="118" y="266" class="text">feature/sprint-2-fournisseurs</text>
+
+  <rect x="50" y="306" width="270" height="68" class="branch"/>
+  <text x="78" y="346" class="text">feature/sprint-3-medicaments</text>
+
+  <rect x="20" y="386" width="300" height="68" class="branch"/>
+  <text x="48" y="426" class="text">feature/swagger-docs</text>
+
+  <rect x="20" y="466" width="300" height="68" class="branch"/>
+  <text x="48" y="506" class="text">feature/github-actions-cicd-render</text>
+
+  <path d="M600 350 L600 314" class="arrow"/>
+  <path d="M600 240 L600 204" class="arrow"/>
+  <path d="M320 260 L468 260" class="arrow"/>
+  <path d="M320 340 L468 340" class="arrow"/>
+  <path d="M320 420 L468 390" class="arrow"/>
+  <path d="M320 500 L468 390" class="arrow"/>
+
+  <rect x="760" y="220" width="330" height="250" class="branch"/>
+  <text x="796" y="264" class="label">Flux de promotion</text>
+  <text x="796" y="308" class="text">1. Creation d'une branche feature depuis dev</text>
+  <text x="796" y="342" class="text">2. Developpement et verification locale</text>
+  <text x="796" y="376" class="text">3. Integration dans dev</text>
+  <text x="796" y="410" class="text">4. Promotion vers prod apres stabilisation</text>
+  <text x="796" y="444" class="text">5. main reste une branche de reference</text>
+
+  <rect x="760" y="500" width="330" height="120" class="branchhead"/>
+  <text x="796" y="544" class="label">Constat important</text>
+  <text x="796" y="580" class="text">Le branchement Git sert aussi de narration</text>
+  <text x="796" y="604" class="text">pour les sprints et la qualite du projet.</text>
+</svg>

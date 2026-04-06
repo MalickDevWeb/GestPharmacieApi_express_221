@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture backend</title>
+  <desc id="desc">Schema des couches backend allant de la requete HTTP jusqu'a la base PostgreSQL via Prisma.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .stack { fill: #f9f9f9; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .support { fill: #efefef; stroke: #111111; stroke-width: 2; rx: 16; ry: 16; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 15px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .arrow { stroke: #111111; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="724" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Architecture backend en couches</text>
+  <text x="60" y="102" class="subtitle">Chaque module suit une chaine route -> controller -> service -> repository avec Prisma comme couche d'acces aux donnees.</text>
+
+  <rect x="120" y="150" width="220" height="90" class="stack"/>
+  <text x="177" y="204" class="label">Clients HTTP</text>
+
+  <rect x="120" y="280" width="220" height="100" class="stack"/>
+  <text x="150" y="324" class="label">Express app</text>
+  <text x="150" y="352" class="text">helmet, cors, json</text>
+
+  <rect x="120" y="420" width="220" height="100" class="stack"/>
+  <text x="165" y="464" class="label">Routes API</text>
+  <text x="145" y="492" class="text">/auth /clients /fournisseurs</text>
+
+  <rect x="440" y="150" width="300" height="90" class="stack"/>
+  <text x="512" y="204" class="label">Containers</text>
+
+  <rect x="440" y="280" width="300" height="100" class="stack"/>
+  <text x="500" y="324" class="label">Controllers</text>
+  <text x="470" y="352" class="text">Normalisation des reponses</text>
+
+  <rect x="440" y="420" width="300" height="120" class="stack"/>
+  <text x="525" y="462" class="label">Services</text>
+  <text x="468" y="490" class="text">Regles metier, validations,</text>
+  <text x="468" y="516" class="text">coherence fonctionnelle</text>
+
+  <rect x="840" y="150" width="240" height="90" class="stack"/>
+  <text x="890" y="204" class="label">Repositories</text>
+
+  <rect x="840" y="280" width="240" height="100" class="stack"/>
+  <text x="919" y="324" class="label">Prisma</text>
+  <text x="884" y="352" class="text">Transactions et ORM</text>
+
+  <rect x="840" y="420" width="240" height="100" class="stack"/>
+  <text x="884" y="464" class="label">PostgreSQL</text>
+  <text x="882" y="492" class="text">Client, Fournisseur,</text>
+  <text x="882" y="516" class="text">Medicament, Vente</text>
+
+  <rect x="420" y="610" width="680" height="80" class="support"/>
+  <text x="450" y="658" class="text">Couches transverses : Zod pour la validation, JWT pour l'authentification, gestion centralisee des erreurs, journalisation Pino et documentation Swagger.</text>
+
+  <path d="M230 240 L230 278" class="arrow"/>
+  <path d="M230 380 L230 418" class="arrow"/>
+  <path d="M340 470 L438 470" class="arrow"/>
+  <path d="M590 240 L590 278" class="arrow"/>
+  <path d="M590 380 L590 418" class="arrow"/>
+  <path d="M740 470 L838 470" class="arrow"/>
+  <path d="M960 240 L960 278" class="arrow"/>
+  <path d="M960 380 L960 418" class="arrow"/>
+</svg>

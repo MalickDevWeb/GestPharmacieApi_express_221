@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Flux CI/CD et deploiement</title>
+  <desc id="desc">Pipeline allant du developpement Git aux tests GitHub Actions puis au deploiement Render avec PostgreSQL.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .box { fill: #fafafa; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .group { fill: #efefef; stroke: #111111; stroke-width: 2; rx: 22; ry: 22; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 15px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .arrow { stroke: #111111; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="724" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Flux CI/CD et deploiement</text>
+  <text x="60" y="102" class="subtitle">Le workflow GitHub Actions teste le backend et declenche Render uniquement sur push de la branche prod.</text>
+
+  <rect x="70" y="220" width="200" height="120" class="box"/>
+  <text x="116" y="270" class="label">Git local</text>
+  <text x="102" y="302" class="text">feature/* puis merge vers dev</text>
+
+  <rect x="340" y="220" width="240" height="120" class="group"/>
+  <text x="390" y="270" class="label">GitHub</text>
+  <text x="370" y="302" class="text">push / pull_request / branches</text>
+
+  <rect x="650" y="170" width="250" height="220" class="group"/>
+  <text x="698" y="216" class="label">GitHub Actions</text>
+  <text x="682" y="258" class="text">1. npm ci</text>
+  <text x="682" y="290" class="text">2. prisma generate</text>
+  <text x="682" y="322" class="text">3. npm run build</text>
+  <text x="682" y="354" class="text">4. npm run test</text>
+
+  <rect x="970" y="220" width="160" height="120" class="box"/>
+  <text x="1012" y="270" class="label">Render</text>
+  <text x="994" y="302" class="text">Deploy hook sur prod</text>
+
+  <rect x="820" y="500" width="310" height="130" class="box"/>
+  <text x="870" y="548" class="label">Production</text>
+  <text x="848" y="580" class="text">Service Node.js + migrations deploy</text>
+  <text x="848" y="606" class="text">Health check : /api/v1/health</text>
+
+  <rect x="440" y="500" width="300" height="130" class="box"/>
+  <text x="492" y="548" class="label">PostgreSQL Render</text>
+  <text x="470" y="580" class="text">DATABASE_URL injecte automatiquement</text>
+  <text x="470" y="606" class="text">Connexion Prisma en production</text>
+
+  <rect x="120" y="500" width="230" height="130" class="box"/>
+  <text x="158" y="548" class="label">Docker local</text>
+  <text x="144" y="580" class="text">API + db via docker-compose</text>
+  <text x="144" y="606" class="text">Environnement de validation</text>
+
+  <path d="M270 280 L338 280" class="arrow"/>
+  <path d="M580 280 L648 280" class="arrow"/>
+  <path d="M900 280 L968 280" class="arrow"/>
+  <path d="M1050 340 L975 498" class="arrow"/>
+  <path d="M740 390 L590 498" class="arrow"/>
+  <path d="M180 340 L220 498" class="arrow"/>
+
+  <text x="646" y="414" class="small">Le job deploy n'est execute que si le job test est valide et que la reference Git correspond a refs/heads/prod.</text>
+</svg>

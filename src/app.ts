@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
-import { buildDocsRouter } from "./docs";
+import { buildDocsRouter, memoirePdfHandler } from "./docs";
 import { errorHandler, notFoundHandler } from "./middlewares/error.middleware";
 import { apiRouter } from "./routes";
 
@@ -12,6 +12,7 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+app.get("/pdf", memoirePdfHandler);
 app.use("/docs", buildDocsRouter());
 app.use("/api/v1", apiRouter);
 

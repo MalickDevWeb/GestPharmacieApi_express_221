@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Modele de donnees Prisma</title>
+  <desc id="desc">Diagramme conceptuel simplifie des entites Client, Fournisseur, Medicament et Vente avec les relations observees dans le schema Prisma.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .entity { fill: #fafafa; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .header { fill: #e8e8e8; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 15px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .link { stroke: #111111; stroke-width: 2.4; fill: none; }
+      .card { font: 700 15px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="784" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Modele de donnees issu de Prisma</text>
+  <text x="60" y="102" class="subtitle">Le schema persiste quatre entites principales et applique des contraintes d'unicite ainsi que des suppressions restreintes.</text>
+
+  <rect x="80" y="170" width="250" height="250" class="entity"/>
+  <rect x="80" y="170" width="250" height="56" class="header"/>
+  <text x="160" y="206" class="label">Client</text>
+  <text x="104" y="252" class="text">id : uuid</text>
+  <text x="104" y="282" class="text">prenom</text>
+  <text x="104" y="312" class="text">nom</text>
+  <text x="104" y="342" class="text">telephone</text>
+  <text x="104" y="372" class="text">email (unique)</text>
+  <text x="104" y="402" class="text">adresse, createdAt, updatedAt</text>
+
+  <rect x="870" y="170" width="250" height="250" class="entity"/>
+  <rect x="870" y="170" width="250" height="56" class="header"/>
+  <text x="927" y="206" class="label">Fournisseur</text>
+  <text x="894" y="252" class="text">id : uuid</text>
+  <text x="894" y="282" class="text">code (unique)</text>
+  <text x="894" y="312" class="text">nom</text>
+  <text x="894" y="342" class="text">adresse</text>
+  <text x="894" y="372" class="text">telephone, email</text>
+  <text x="894" y="402" class="text">createdAt, updatedAt</text>
+
+  <rect x="470" y="140" width="260" height="310" class="entity"/>
+  <rect x="470" y="140" width="260" height="56" class="header"/>
+  <text x="536" y="176" class="label">Medicament</text>
+  <text x="494" y="222" class="text">id : uuid</text>
+  <text x="494" y="252" class="text">code (unique)</text>
+  <text x="494" y="282" class="text">libelle</text>
+  <text x="494" y="312" class="text">prix : decimal(10,2)</text>
+  <text x="494" y="342" class="text">qteStock</text>
+  <text x="494" y="372" class="text">dateExpiration</text>
+  <text x="494" y="402" class="text">fournisseurId</text>
+  <text x="494" y="432" class="text">createdAt, updatedAt</text>
+
+  <rect x="470" y="530" width="260" height="220" class="entity"/>
+  <rect x="470" y="530" width="260" height="56" class="header"/>
+  <text x="563" y="566" class="label">Vente</text>
+  <text x="494" y="612" class="text">id : uuid</text>
+  <text x="494" y="642" class="text">clientId</text>
+  <text x="494" y="672" class="text">medicamentId</text>
+  <text x="494" y="702" class="text">quantite, dateVente</text>
+  <text x="494" y="732" class="text">montantTotal : decimal(10,2)</text>
+
+  <path d="M330 295 C380 295, 420 295, 470 295" class="link"/>
+  <path d="M730 295 C780 295, 820 295, 870 295" class="link"/>
+  <path d="M600 450 L600 530" class="link"/>
+
+  <text x="380" y="278" class="card">1,N</text>
+  <text x="760" y="278" class="card">1,N</text>
+  <text x="618" y="494" class="card">1,N</text>
+  <text x="430" y="616" class="card">1,N</text>
+  <path d="M330 330 C410 330, 410 640, 470 640" class="link"/>
+
+  <text x="104" y="470" class="small">Un client peut etre associe a plusieurs ventes.</text>
+  <text x="874" y="470" class="small">Un fournisseur peut livrer plusieurs medicaments.</text>
+  <text x="468" y="786" class="small">Les relations sont definies avec onDelete: Restrict afin d'eviter des suppressions incoherentes.</text>
+</svg>

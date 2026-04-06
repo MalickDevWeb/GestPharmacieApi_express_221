@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1370" role="img" aria-labelledby="title desc">
+  <title id="title">Capture reelle du module Fournisseurs</title>
+  <desc id="desc">Le service securise le code fournisseur et interdit la suppression d une relation encore active.</desc>
+  <defs>
+    <style>
+
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .panel { fill: #fafafa; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .panelhead { fill: #ececec; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .paneltitle { font: 700 16px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .code { font: 14px 'Liberation Mono', 'DejaVu Sans Mono', monospace; fill: #111111; }
+      .note { font: 400 12px 'Liberation Sans', Arial, sans-serif; fill: #666666; }
+
+    </style>
+  </defs>
+  <rect x="18" y="18" width="1364" height="1334" class="frame"/>
+  <text x="36" y="68" class="title">Capture reelle du module Fournisseurs</text>
+  <text x="36" y="96" class="subtitle">Le service securise le code fournisseur et interdit la suppression d une relation encore active.</text>
+  <text x="36" y="118" class="note">Capture composee a partir des fichiers reels du depot GesPharmacie.</text>
+  <rect x="36" y="134" width="1328" height="352" class="panel"/>
+  <rect x="36" y="134" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="162" class="paneltitle">src/modules/fournisseur/fournisseur.routes.ts | lignes 8-22</text>
+  <text x="54" y="196" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  8 | export const buildFournisseurRouter = (controller: FournisseurController) =&gt; {</tspan>
+    <tspan x="54" dy="18">  9 |   const router = Router();</tspan>
+    <tspan x="54" dy="18"> 10 |   const validator = new FournisseurValidator();</tspan>
+    <tspan x="54" dy="18"> 11 | </tspan>
+    <tspan x="54" dy="18"> 12 |   router.get("/", asyncHandler(controller.list));</tspan>
+    <tspan x="54" dy="18"> 13 |   router.post("/", validate(validator.getCreateSchema()), asyncHandler(controller.create));</tspan>
+    <tspan x="54" dy="18"> 14 |   router.get("/:id", validate(validator.getIdSchema()), asyncHandler(controller.getById));</tspan>
+    <tspan x="54" dy="18"> 15 |   router.patch(</tspan>
+    <tspan x="54" dy="18"> 16 |     "/:id",</tspan>
+    <tspan x="54" dy="18"> 17 |     validate(validator.getUpdateSchema()),</tspan>
+    <tspan x="54" dy="18"> 18 |     asyncHandler(controller.update),</tspan>
+    <tspan x="54" dy="18"> 19 |   );</tspan>
+    <tspan x="54" dy="18"> 20 |   router.delete("/:id", validate(validator.getIdSchema()), asyncHandler(controller.delete));</tspan>
+    <tspan x="54" dy="18"> 21 | </tspan>
+    <tspan x="54" dy="18"> 22 |   return router;</tspan>
+  </text>
+  <rect x="36" y="510" width="1328" height="406" class="panel"/>
+  <rect x="36" y="510" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="538" class="paneltitle">src/modules/fournisseur/fournisseur.service.ts | lignes 18-35</text>
+  <text x="54" y="572" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 18 |   private async ensureCodeAvailable(code: string, fournisseurId?: string) {</tspan>
+    <tspan x="54" dy="18"> 19 |     const existingFournisseur = await this.fournisseurRepository.findByCode(code, fournisseurId);</tspan>
+    <tspan x="54" dy="18"> 20 | </tspan>
+    <tspan x="54" dy="18"> 21 |     if (existingFournisseur) {</tspan>
+    <tspan x="54" dy="18"> 22 |       throw new AppError(409, "Le code fournisseur existe deja.", {</tspan>
+    <tspan x="54" dy="18"> 23 |         code,</tspan>
+    <tspan x="54" dy="18"> 24 |       });</tspan>
+    <tspan x="54" dy="18"> 25 |     }</tspan>
+    <tspan x="54" dy="18"> 26 |   }</tspan>
+    <tspan x="54" dy="18"> 27 | </tspan>
+    <tspan x="54" dy="18"> 28 |   async list() {</tspan>
+    <tspan x="54" dy="18"> 29 |     return this.fournisseurRepository.list();</tspan>
+    <tspan x="54" dy="18"> 30 |   }</tspan>
+    <tspan x="54" dy="18"> 31 | </tspan>
+    <tspan x="54" dy="18"> 32 |   async create(data: CreateFournisseurDTO) {</tspan>
+    <tspan x="54" dy="18"> 33 |     await this.ensureCodeAvailable(data.code);</tspan>
+    <tspan x="54" dy="18"> 34 | </tspan>
+    <tspan x="54" dy="18"> 35 |     return this.fournisseurRepository.create(data);</tspan>
+  </text>
+  <rect x="36" y="940" width="1328" height="370" class="panel"/>
+  <rect x="36" y="940" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="968" class="paneltitle">src/modules/fournisseur/fournisseur.service.ts | lignes 60-75</text>
+  <text x="54" y="1002" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 60 |   async delete(id: string) {</tspan>
+    <tspan x="54" dy="18"> 61 |     const fournisseur = await this.getById(id);</tspan>
+    <tspan x="54" dy="18"> 62 | </tspan>
+    <tspan x="54" dy="18"> 63 |     if (fournisseur._count.medicaments &gt; 0) {</tspan>
+    <tspan x="54" dy="18"> 64 |       throw new AppError(</tspan>
+    <tspan x="54" dy="18"> 65 |         409,</tspan>
+    <tspan x="54" dy="18"> 66 |         "Suppression interdite: ce fournisseur est associe a des medicaments.",</tspan>
+    <tspan x="54" dy="18"> 67 |         {</tspan>
+    <tspan x="54" dy="18"> 68 |           fournisseurId: id,</tspan>
+    <tspan x="54" dy="18"> 69 |           medicamentsCount: fournisseur._count.medicaments,</tspan>
+    <tspan x="54" dy="18"> 70 |         },</tspan>
+    <tspan x="54" dy="18"> 71 |       );</tspan>
+    <tspan x="54" dy="18"> 72 |     }</tspan>
+    <tspan x="54" dy="18"> 73 | </tspan>
+    <tspan x="54" dy="18"> 74 |     return this.fournisseurRepository.delete(id);</tspan>
+    <tspan x="54" dy="18"> 75 |   }</tspan>
+  </text>
+</svg>

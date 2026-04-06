@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Cycle de developpement retenu</title>
+  <desc id="desc">Comparaison synthetique de trois approches et mise en avant du pilotage par sprints observe dans le projet.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .card { fill: #fbfbfb; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .head { fill: #e6e6e6; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .label { font: 700 20px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .text { font: 400 16px 'Liberation Sans', Arial, sans-serif; fill: #222222; }
+      .pill { fill: #f2f2f2; stroke: #111111; stroke-width: 1.5; rx: 24; ry: 24; }
+      .arrow { stroke: #111111; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="684" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="72" class="title">Cycle de developpement et choix methodologique</text>
+  <text x="60" y="102" class="subtitle">Le depot montre une progression par sprints increments et une integration Git progressive.</text>
+
+  <rect x="60" y="150" width="320" height="220" class="card"/>
+  <rect x="60" y="150" width="320" height="56" class="head"/>
+  <text x="88" y="186" class="label">Modele sequentiel</text>
+  <text x="88" y="236" class="text">- Cahier fige en amont</text>
+  <text x="88" y="270" class="text">- Validation tardive</text>
+  <text x="88" y="304" class="text">- Peu adapte aux ajustements</text>
+  <text x="88" y="338" class="text">- Faible visibilite intermediaire</text>
+
+  <rect x="440" y="150" width="320" height="220" class="card"/>
+  <rect x="440" y="150" width="320" height="56" class="head"/>
+  <text x="468" y="186" class="label">Flux continu</text>
+  <text x="468" y="236" class="text">- Livraison reguliere</text>
+  <text x="468" y="270" class="text">- Priorisation souple</text>
+  <text x="468" y="304" class="text">- Moins lisible pour une soutenance</text>
+  <text x="468" y="338" class="text">- Difficile a raconter par lot</text>
+
+  <rect x="820" y="150" width="320" height="220" class="card"/>
+  <rect x="820" y="150" width="320" height="56" class="head"/>
+  <text x="848" y="186" class="label">Approche retenue</text>
+  <text x="848" y="236" class="text">- Sprints courts et increments</text>
+  <text x="848" y="270" class="text">- Trace Git lisible par fonctionnalite</text>
+  <text x="848" y="304" class="text">- Validation technique a chaque etape</text>
+  <text x="848" y="338" class="text">- Cohesion avec le depot observe</text>
+
+  <path d="M220 400 C220 445, 600 445, 600 490" class="arrow"/>
+  <path d="M600 400 L600 490" class="arrow"/>
+  <path d="M980 400 C980 445, 600 445, 600 490" class="arrow"/>
+
+  <rect x="180" y="490" width="840" height="150" class="card"/>
+  <text x="220" y="536" class="label">Sprints identifies dans le projet</text>
+
+  <rect x="222" y="565" width="120" height="42" class="pill"/>
+  <rect x="360" y="565" width="120" height="42" class="pill"/>
+  <rect x="498" y="565" width="120" height="42" class="pill"/>
+  <rect x="636" y="565" width="120" height="42" class="pill"/>
+  <rect x="774" y="565" width="120" height="42" class="pill"/>
+
+  <text x="248" y="592" class="text">Sprint 1</text>
+  <text x="381" y="592" class="text">Sprint 2</text>
+  <text x="519" y="592" class="text">Sprint 3</text>
+  <text x="657" y="592" class="text">Sprint 4</text>
+  <text x="795" y="592" class="text">Sprint 5</text>
+
+  <text x="218" y="632" class="subtitle">Modele Prisma</text>
+  <text x="360" y="632" class="subtitle">CRUD fournisseurs</text>
+  <text x="498" y="632" class="subtitle">CRUD medicaments</text>
+  <text x="636" y="632" class="subtitle">CRUD clients</text>
+  <text x="774" y="632" class="subtitle">Ventes et stock</text>
+</svg>

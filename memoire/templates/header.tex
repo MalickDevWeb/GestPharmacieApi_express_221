@@ -1,0 +1,239 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\graphicspath{{../}}
+\usepackage{tikz}
+\usepackage{eso-pic}
+
+\setstretch{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\headheight}{18pt}
+\floatplacement{figure}{H}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  textfont=it
+}
+
+\definecolor{DocBlue}{HTML}{2E3F9C}
+\definecolor{DocGray}{HTML}{5D5D5D}
+\definecolor{DocBorderOuter}{HTML}{173A63}
+\definecolor{DocBorderInner}{HTML}{B08D57}
+\definecolor{DocBorderAccent}{HTML}{D7C19D}
+
+\newif\ifdocshowcoverborder
+\newif\ifdocshownormalborder
+\docshowcoverbordertrue
+\docshownormalborderfalse
+
+\newcommand{\DocPageBorder}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=1.1pt,color=DocBorderOuter!90]
+      ([xshift=1.15cm,yshift=-1.15cm]current page.north west)
+      rectangle
+      ([xshift=-1.15cm,yshift=1.15cm]current page.south east);
+    \draw[line width=0.5pt,color=DocBorderInner!95]
+      ([xshift=1.45cm,yshift=-1.45cm]current page.north west)
+      rectangle
+      ([xshift=-1.45cm,yshift=1.45cm]current page.south east);
+
+    \draw[line width=1.5pt,color=DocBorderOuter!95]
+      ([xshift=1.15cm,yshift=-3.2cm]current page.north west) --
+      ([xshift=1.15cm,yshift=-1.15cm]current page.north west) --
+      ([xshift=3.2cm,yshift=-1.15cm]current page.north west);
+    \draw[line width=1.5pt,color=DocBorderOuter!95]
+      ([xshift=-3.2cm,yshift=-1.15cm]current page.north east) --
+      ([xshift=-1.15cm,yshift=-1.15cm]current page.north east) --
+      ([xshift=-1.15cm,yshift=-3.2cm]current page.north east);
+    \draw[line width=1.5pt,color=DocBorderOuter!95]
+      ([xshift=1.15cm,yshift=3.2cm]current page.south west) --
+      ([xshift=1.15cm,yshift=1.15cm]current page.south west) --
+      ([xshift=3.2cm,yshift=1.15cm]current page.south west);
+    \draw[line width=1.5pt,color=DocBorderOuter!95]
+      ([xshift=-3.2cm,yshift=1.15cm]current page.south east) --
+      ([xshift=-1.15cm,yshift=1.15cm]current page.south east) --
+      ([xshift=-1.15cm,yshift=3.2cm]current page.south east);
+
+    \draw[line width=0.8pt,color=DocBorderInner!100]
+      ([xshift=1.45cm,yshift=-2.45cm]current page.north west) --
+      ([xshift=2.45cm,yshift=-1.45cm]current page.north west);
+    \draw[line width=0.8pt,color=DocBorderInner!100]
+      ([xshift=-2.45cm,yshift=-1.45cm]current page.north east) --
+      ([xshift=-1.45cm,yshift=-2.45cm]current page.north east);
+    \draw[line width=0.8pt,color=DocBorderInner!100]
+      ([xshift=1.45cm,yshift=2.45cm]current page.south west) --
+      ([xshift=2.45cm,yshift=1.45cm]current page.south west);
+    \draw[line width=0.8pt,color=DocBorderInner!100]
+      ([xshift=-2.45cm,yshift=1.45cm]current page.south east) --
+      ([xshift=-1.45cm,yshift=2.45cm]current page.south east);
+
+    \filldraw[fill=DocBorderInner!95,draw=DocBorderOuter!90,line width=0.5pt]
+      (current page.north) ++(0,-1.3cm) -- ++(0.18cm,0.18cm) -- ++(-0.18cm,0.18cm) -- ++(-0.18cm,-0.18cm) -- cycle;
+    \filldraw[fill=DocBorderInner!95,draw=DocBorderOuter!90,line width=0.5pt]
+      (current page.south) ++(0,1.3cm) -- ++(0.18cm,-0.18cm) -- ++(-0.18cm,-0.18cm) -- ++(-0.18cm,0.18cm) -- cycle;
+    \draw[line width=0.6pt,color=DocBorderAccent!90]
+      ([xshift=-1.1cm,yshift=-1.3cm]current page.north) --
+      ([xshift=-0.25cm,yshift=-1.3cm]current page.north);
+    \draw[line width=0.6pt,color=DocBorderAccent!90]
+      ([xshift=0.25cm,yshift=-1.3cm]current page.north) --
+      ([xshift=1.1cm,yshift=-1.3cm]current page.north);
+    \draw[line width=0.6pt,color=DocBorderAccent!90]
+      ([xshift=-1.1cm,yshift=1.3cm]current page.south) --
+      ([xshift=-0.25cm,yshift=1.3cm]current page.south);
+    \draw[line width=0.6pt,color=DocBorderAccent!90]
+      ([xshift=0.25cm,yshift=1.3cm]current page.south) --
+      ([xshift=1.1cm,yshift=1.3cm]current page.south);
+  \end{tikzpicture}%
+}
+
+\newcommand{\DocSimpleDoubleBorder}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=0.95pt,color=DocBorderOuter!90]
+      ([xshift=1.15cm,yshift=-1.15cm]current page.north west)
+      rectangle
+      ([xshift=-1.15cm,yshift=1.15cm]current page.south east);
+    \draw[line width=0.45pt,color=DocBorderInner!95]
+      ([xshift=1.45cm,yshift=-1.45cm]current page.north west)
+      rectangle
+      ([xshift=-1.45cm,yshift=1.45cm]current page.south east);
+  \end{tikzpicture}%
+}
+
+\newcommand{\DocBorderImagePath}{assets/images/stylebordure.png}
+\newcommand{\DocCoverBorderScale}{0.955}
+\newcommand{\DocCoverDecoration}{%
+  \IfFileExists{\DocBorderImagePath}{%
+    \begin{tikzpicture}[remember picture,overlay]
+      \node at (current page.center) {%
+        \includegraphics[
+          width=\DocCoverBorderScale\paperwidth,
+          height=\DocCoverBorderScale\paperheight
+        ]{\DocBorderImagePath}%
+      };
+    \end{tikzpicture}%
+  }{%
+    \DocPageBorder
+  }%
+}
+
+\AddToShipoutPictureBG{%
+  \ifdocshowcoverborder
+    \DocCoverDecoration
+  \fi
+  \ifdocshownormalborder
+    \DocSimpleDoubleBorder
+  \fi
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{GesPharmacie / PHARMA 221}
+\fancyhead[R]{Memoire technique}
+\fancyfoot[C]{\thepage\ /\ \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\titleformat{\chapter}
+  {\normalfont\huge\bfseries\color{black}}
+  {\thechapter.}{0.8em}{}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{black}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{DocGray}}
+  {\thesubsection.}{0.6em}{}
+
+\setlist[itemize]{topsep=0.2em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.2em,itemsep=0.2em}
+
+\makeatletter
+\renewcommand{\maketitle}{
+  \hypersetup{pageanchor=false}
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \begingroup
+    \centering
+
+    \vspace*{0.35cm}
+
+    {\Large\bfseries REPUBLIQUE DU SENEGAL\par}
+    \vspace{0.12cm}
+    {\large\itshape Un Peuple -- Un But -- Une Foi\par}
+
+    \vspace{0.65cm}
+    \includegraphics[width=0.22\textwidth]{assets/images/logo_school.png}\par
+    \vspace{0.26cm}
+    {\Large\bfseries ECOLE 221\par}
+    \vspace{0.08cm}
+    {\large\color{DocGray}Sp\'ecialit\'e : D\'eveloppement Web\par}
+
+    \vspace{0.5cm}
+    \begin{tikzpicture}
+      \node[
+        draw=DocBlue,
+        line width=1.4pt,
+        rounded corners=10pt,
+        inner sep=12pt,
+        text width=0.84\textwidth,
+        align=center
+      ] {%
+        {\Large\bfseries MEMOIRE TECHNIQUE DE SOUTENANCE}\\[0.18cm]
+        {\large\bfseries Module JavaScript}
+      };
+    \end{tikzpicture}
+
+    \vspace{0.2cm}
+    \begin{tikzpicture}
+      \node[
+        draw=DocBlue,
+        line width=1.4pt,
+        rounded corners=10pt,
+        inner sep=16pt,
+        text width=0.84\textwidth,
+        align=center
+      ] {%
+        {\fontsize{24}{28}\selectfont\bfseries\color{black} \@title\par}
+      };
+    \end{tikzpicture}
+
+    \vspace{0.34cm}
+    \renewcommand{\arraystretch}{1.35}
+    \begin{tabularx}{0.82\textwidth}{>{\bfseries}p{4.8cm} X}
+    Pr\'esent\'e par : & Papa Mamlick Teuw \\
+    Encadr\'e par : & M. DIOUF \\
+    Ann\'ee acad\'emique : & 2025--2026 \\
+    Sp\'ecialit\'e : & D\'eveloppement Web \\
+    Module : & JavaScript \\
+    Projet : & GesPharmacie / PHARMA 221 \\
+    Perimetre : & API backend Express, TypeScript, Prisma et PostgreSQL \\
+    Nature du document : & Memoire technique academique \\
+    Etablissement : & Ecole 221 \\
+    Date de soutenance : & \@date \\
+    \end{tabularx}
+
+    \vfill
+    {\small\color{DocGray}Presentation academique avec bordure et couverture adaptees au projet GesPharmacie.\par}
+
+    \endgroup
+  \end{titlepage}
+  \global\docshowcoverborderfalse
+  \global\docshownormalbordertrue
+  \hypersetup{pageanchor=true}
+  \setcounter{page}{1}
+}
+\makeatother

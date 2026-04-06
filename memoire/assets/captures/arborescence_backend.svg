@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" role="img" aria-labelledby="title desc">
+  <title id="title">Capture technique de l'arborescence backend</title>
+  <desc id="desc">Representation de la structure reelle du projet backend issue de la commande tree.</desc>
+  <defs>
+    <style>
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; rx: 18; ry: 18; }
+      .bar { fill: #ececec; stroke: #111111; stroke-width: 2; }
+      .dot { fill: #111111; }
+      .title { font: 700 24px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .mono { font: 400 18px 'Liberation Mono', 'Courier New', monospace; fill: #111111; }
+      .small { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+    </style>
+  </defs>
+
+  <rect x="24" y="24" width="1152" height="812" class="frame"/>
+  <rect x="24" y="24" width="1152" height="54" class="bar"/>
+  <circle cx="58" cy="51" r="7" class="dot"/>
+  <circle cx="82" cy="51" r="7" class="dot" opacity="0.65"/>
+  <circle cx="106" cy="51" r="7" class="dot" opacity="0.35"/>
+  <text x="140" y="58" class="title">Capture technique 1. Arborescence backend reelle</text>
+
+  <text x="58" y="120" class="mono">.</text>
+  <text x="58" y="152" class="mono">├── README.md</text>
+  <text x="58" y="184" class="mono">├── docker</text>
+  <text x="58" y="216" class="mono">│   ├── Dockerfile</text>
+  <text x="58" y="248" class="mono">│   └── docker-compose.yml</text>
+  <text x="58" y="280" class="mono">├── prisma</text>
+  <text x="58" y="312" class="mono">│   ├── migrations</text>
+  <text x="58" y="344" class="mono">│   ├── schema.prisma</text>
+  <text x="58" y="376" class="mono">│   └── seed.ts</text>
+  <text x="58" y="408" class="mono">├── src</text>
+  <text x="58" y="440" class="mono">│   ├── config</text>
+  <text x="58" y="472" class="mono">│   ├── container</text>
+  <text x="58" y="504" class="mono">│   ├── docs</text>
+  <text x="58" y="536" class="mono">│   ├── infrastructure</text>
+  <text x="58" y="568" class="mono">│   ├── middlewares</text>
+  <text x="58" y="600" class="mono">│   ├── modules</text>
+  <text x="58" y="632" class="mono">│   ├── routes</text>
+  <text x="58" y="664" class="mono">│   ├── app.ts</text>
+  <text x="58" y="696" class="mono">│   └── server.ts</text>
+  <text x="58" y="728" class="mono">├── tests</text>
+  <text x="58" y="760" class="mono">│   └── unit</text>
+  <text x="58" y="792" class="mono">└── .github/workflows/ci.yml</text>
+
+  <text x="58" y="824" class="small">Source: sortie effective de tree -L 3 sur le depot backend.</text>
+</svg>

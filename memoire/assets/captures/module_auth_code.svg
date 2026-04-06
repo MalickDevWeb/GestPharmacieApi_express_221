@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1010" role="img" aria-labelledby="title desc">
+  <title id="title">Capture reelle du module Auth</title>
+  <desc id="desc">Extraits du code source: routes de connexion, service de session et signature JWT.</desc>
+  <defs>
+    <style>
+
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .panel { fill: #fafafa; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .panelhead { fill: #ececec; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .paneltitle { font: 700 16px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .code { font: 14px 'Liberation Mono', 'DejaVu Sans Mono', monospace; fill: #111111; }
+      .note { font: 400 12px 'Liberation Sans', Arial, sans-serif; fill: #666666; }
+
+    </style>
+  </defs>
+  <rect x="18" y="18" width="1364" height="974" class="frame"/>
+  <text x="36" y="68" class="title">Capture reelle du module Auth</text>
+  <text x="36" y="96" class="subtitle">Extraits du code source: routes de connexion, service de session et signature JWT.</text>
+  <text x="36" y="118" class="note">Capture composee a partir des fichiers reels du depot GesPharmacie.</text>
+  <rect x="36" y="134" width="1328" height="226" class="panel"/>
+  <rect x="36" y="134" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="162" class="paneltitle">src/modules/auth/auth.routes.ts | lignes 9-16</text>
+  <text x="54" y="196" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  9 | export const buildAuthRouter = (controller: AuthController) =&gt; {</tspan>
+    <tspan x="54" dy="18"> 10 |   const router = Router();</tspan>
+    <tspan x="54" dy="18"> 11 |   const validator = new AuthValidator();</tspan>
+    <tspan x="54" dy="18"> 12 | </tspan>
+    <tspan x="54" dy="18"> 13 |   router.post("/login", validate(validator.getCreateSchema()), asyncHandler(controller.login));</tspan>
+    <tspan x="54" dy="18"> 14 |   router.get("/me", authMiddleware, asyncHandler(controller.me));</tspan>
+    <tspan x="54" dy="18"> 15 | </tspan>
+    <tspan x="54" dy="18"> 16 |   return router;</tspan>
+  </text>
+  <rect x="36" y="384" width="1328" height="190" class="panel"/>
+  <rect x="36" y="384" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="412" class="paneltitle">src/modules/auth/auth.service.ts | lignes 8-13</text>
+  <text x="54" y="446" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  8 | export class AuthService implements IAuthService {</tspan>
+    <tspan x="54" dy="18">  9 |   constructor(private readonly authRepository: IAuthRepository = new AuthRepository()) {}</tspan>
+    <tspan x="54" dy="18"> 10 | </tspan>
+    <tspan x="54" dy="18"> 11 |   async login(payload: LoginDTO): Promise&lt;AuthResponseDTO&gt; {</tspan>
+    <tspan x="54" dy="18"> 12 |     return this.authRepository.createLoginSession(payload.email, UserRole.ADMIN);</tspan>
+    <tspan x="54" dy="18"> 13 |   }</tspan>
+  </text>
+  <rect x="36" y="598" width="1328" height="352" class="panel"/>
+  <rect x="36" y="598" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="626" class="paneltitle">src/modules/auth/auth.repository.ts | lignes 8-22</text>
+  <text x="54" y="660" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  8 | export class AuthRepository implements IAuthRepository {</tspan>
+    <tspan x="54" dy="18">  9 |   async createLoginSession(email: string, role: UserRole): Promise&lt;AuthResponseDTO&gt; {</tspan>
+    <tspan x="54" dy="18"> 10 |     const token = jwt.sign({ role }, env.JWT_SECRET, {</tspan>
+    <tspan x="54" dy="18"> 11 |       subject: email,</tspan>
+    <tspan x="54" dy="18"> 12 |       expiresIn: "1d",</tspan>
+    <tspan x="54" dy="18"> 13 |     });</tspan>
+    <tspan x="54" dy="18"> 14 | </tspan>
+    <tspan x="54" dy="18"> 15 |     return {</tspan>
+    <tspan x="54" dy="18"> 16 |       token,</tspan>
+    <tspan x="54" dy="18"> 17 |       user: {</tspan>
+    <tspan x="54" dy="18"> 18 |         email,</tspan>
+    <tspan x="54" dy="18"> 19 |         role,</tspan>
+    <tspan x="54" dy="18"> 20 |       },</tspan>
+    <tspan x="54" dy="18"> 21 |     };</tspan>
+    <tspan x="54" dy="18"> 22 |   }</tspan>
+  </text>
+</svg>

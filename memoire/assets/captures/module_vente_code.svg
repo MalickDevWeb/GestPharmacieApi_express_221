@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2162" role="img" aria-labelledby="title desc">
+  <title id="title">Capture reelle du module Ventes</title>
+  <desc id="desc">La vente est traitee comme une operation transactionnelle: controle metier, decrement du stock et creation.</desc>
+  <defs>
+    <style>
+
+      .title { font: 700 28px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 400 14px 'Liberation Sans', Arial, sans-serif; fill: #444444; }
+      .frame { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .panel { fill: #fafafa; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .panelhead { fill: #ececec; stroke: #111111; stroke-width: 1.4; rx: 12; ry: 12; }
+      .paneltitle { font: 700 16px 'Liberation Sans', Arial, sans-serif; fill: #111111; }
+      .code { font: 14px 'Liberation Mono', 'DejaVu Sans Mono', monospace; fill: #111111; }
+      .note { font: 400 12px 'Liberation Sans', Arial, sans-serif; fill: #666666; }
+
+    </style>
+  </defs>
+  <rect x="18" y="18" width="1364" height="2126" class="frame"/>
+  <text x="36" y="68" class="title">Capture reelle du module Ventes</text>
+  <text x="36" y="96" class="subtitle">La vente est traitee comme une operation transactionnelle: controle metier, decrement du stock et creation.</text>
+  <text x="36" y="118" class="note">Capture composee a partir des fichiers reels du depot GesPharmacie.</text>
+  <rect x="36" y="134" width="1328" height="190" class="panel"/>
+  <rect x="36" y="134" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="162" class="paneltitle">src/modules/vente/vente.routes.ts | lignes 8-13</text>
+  <text x="54" y="196" class="code" xml:space="preserve">
+    <tspan x="54" dy="0">  8 | export const buildVenteRouter = (controller: VenteController) =&gt; {</tspan>
+    <tspan x="54" dy="18">  9 |   const router = Router();</tspan>
+    <tspan x="54" dy="18"> 10 |   const validator = new VenteValidator();</tspan>
+    <tspan x="54" dy="18"> 11 | </tspan>
+    <tspan x="54" dy="18"> 12 |   router.get("/", asyncHandler(controller.list));</tspan>
+    <tspan x="54" dy="18"> 13 |   router.post("/", validate(validator.getCreateSchema()), asyncHandler(controller.create));</tspan>
+  </text>
+  <rect x="36" y="348" width="1328" height="1072" class="panel"/>
+  <rect x="36" y="348" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="376" class="paneltitle">src/modules/vente/vente.service.ts | lignes 30-84</text>
+  <text x="54" y="410" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 30 |   async create(data: CreateVenteDTO) {</tspan>
+    <tspan x="54" dy="18"> 31 |     return this.venteRepository.transaction(async (transaction) =&gt; {</tspan>
+    <tspan x="54" dy="18"> 32 |       const client = await this.venteRepository.findClientById(data.clientId, transaction);</tspan>
+    <tspan x="54" dy="18"> 33 | </tspan>
+    <tspan x="54" dy="18"> 34 |       if (!client) {</tspan>
+    <tspan x="54" dy="18"> 35 |         throw new AppError(404, "Client introuvable.", {</tspan>
+    <tspan x="54" dy="18"> 36 |           clientId: data.clientId,</tspan>
+    <tspan x="54" dy="18"> 37 |         });</tspan>
+    <tspan x="54" dy="18"> 38 |       }</tspan>
+    <tspan x="54" dy="18"> 39 | </tspan>
+    <tspan x="54" dy="18"> 40 |       const medicament = await this.venteRepository.findMedicamentById(</tspan>
+    <tspan x="54" dy="18"> 41 |         data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 42 |         transaction,</tspan>
+    <tspan x="54" dy="18"> 43 |       );</tspan>
+    <tspan x="54" dy="18"> 44 | </tspan>
+    <tspan x="54" dy="18"> 45 |       if (!medicament) {</tspan>
+    <tspan x="54" dy="18"> 46 |         throw new AppError(404, "Medicament introuvable.", {</tspan>
+    <tspan x="54" dy="18"> 47 |           medicamentId: data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 48 |         });</tspan>
+    <tspan x="54" dy="18"> 49 |       }</tspan>
+    <tspan x="54" dy="18"> 50 | </tspan>
+    <tspan x="54" dy="18"> 51 |       if (!isStrictlyAfterToday(medicament.dateExpiration)) {</tspan>
+    <tspan x="54" dy="18"> 52 |         throw new AppError(409, "Vente refusee: le medicament est expire.", {</tspan>
+    <tspan x="54" dy="18"> 53 |           medicamentId: data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 54 |           dateExpiration: medicament.dateExpiration,</tspan>
+    <tspan x="54" dy="18"> 55 |         });</tspan>
+    <tspan x="54" dy="18"> 56 |       }</tspan>
+    <tspan x="54" dy="18"> 57 | </tspan>
+    <tspan x="54" dy="18"> 58 |       if (medicament.qteStock &lt; data.quantite) {</tspan>
+    <tspan x="54" dy="18"> 59 |         throw new AppError(409, "Stock insuffisant pour effectuer la vente.", {</tspan>
+    <tspan x="54" dy="18"> 60 |           medicamentId: data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 61 |           qteStock: medicament.qteStock,</tspan>
+    <tspan x="54" dy="18"> 62 |           quantiteDemandee: data.quantite,</tspan>
+    <tspan x="54" dy="18"> 63 |         });</tspan>
+    <tspan x="54" dy="18"> 64 |       }</tspan>
+    <tspan x="54" dy="18"> 65 | </tspan>
+    <tspan x="54" dy="18"> 66 |       const montantTotal = medicament.prix.mul(data.quantite);</tspan>
+    <tspan x="54" dy="18"> 67 | </tspan>
+    <tspan x="54" dy="18"> 68 |       await this.venteRepository.decrementMedicamentStock(</tspan>
+    <tspan x="54" dy="18"> 69 |         data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 70 |         data.quantite,</tspan>
+    <tspan x="54" dy="18"> 71 |         transaction,</tspan>
+    <tspan x="54" dy="18"> 72 |       );</tspan>
+    <tspan x="54" dy="18"> 73 | </tspan>
+    <tspan x="54" dy="18"> 74 |       return this.venteRepository.create(</tspan>
+    <tspan x="54" dy="18"> 75 |         {</tspan>
+    <tspan x="54" dy="18"> 76 |           clientId: data.clientId,</tspan>
+    <tspan x="54" dy="18"> 77 |           medicamentId: data.medicamentId,</tspan>
+    <tspan x="54" dy="18"> 78 |           quantite: data.quantite,</tspan>
+    <tspan x="54" dy="18"> 79 |           dateVente: data.dateVente,</tspan>
+    <tspan x="54" dy="18"> 80 |           montantTotal,</tspan>
+    <tspan x="54" dy="18"> 81 |         },</tspan>
+    <tspan x="54" dy="18"> 82 |         transaction,</tspan>
+    <tspan x="54" dy="18"> 83 |       );</tspan>
+    <tspan x="54" dy="18"> 84 |     });</tspan>
+  </text>
+  <rect x="36" y="1444" width="1328" height="658" class="panel"/>
+  <rect x="36" y="1444" width="1328" height="44" class="panelhead"/>
+  <text x="54" y="1472" class="paneltitle">src/modules/vente/vente.repository.ts | lignes 60-91</text>
+  <text x="54" y="1506" class="code" xml:space="preserve">
+    <tspan x="54" dy="0"> 60 |   async decrementMedicamentStock(</tspan>
+    <tspan x="54" dy="18"> 61 |     id: string,</tspan>
+    <tspan x="54" dy="18"> 62 |     quantite: number,</tspan>
+    <tspan x="54" dy="18"> 63 |     transaction: Prisma.TransactionClient,</tspan>
+    <tspan x="54" dy="18"> 64 |   ): Promise&lt;Medicament&gt; {</tspan>
+    <tspan x="54" dy="18"> 65 |     return transaction.medicament.update({</tspan>
+    <tspan x="54" dy="18"> 66 |       where: {</tspan>
+    <tspan x="54" dy="18"> 67 |         id,</tspan>
+    <tspan x="54" dy="18"> 68 |       },</tspan>
+    <tspan x="54" dy="18"> 69 |       data: {</tspan>
+    <tspan x="54" dy="18"> 70 |         qteStock: {</tspan>
+    <tspan x="54" dy="18"> 71 |           decrement: quantite,</tspan>
+    <tspan x="54" dy="18"> 72 |         },</tspan>
+    <tspan x="54" dy="18"> 73 |       },</tspan>
+    <tspan x="54" dy="18"> 74 |     });</tspan>
+    <tspan x="54" dy="18"> 75 |   }</tspan>
+    <tspan x="54" dy="18"> 76 | </tspan>
+    <tspan x="54" dy="18"> 77 |   async create(</tspan>
+    <tspan x="54" dy="18"> 78 |     data: CreateVenteRecord,</tspan>
+    <tspan x="54" dy="18"> 79 |     transaction: Prisma.TransactionClient,</tspan>
+    <tspan x="54" dy="18"> 80 |   ): Promise&lt;VenteDetails&gt; {</tspan>
+    <tspan x="54" dy="18"> 81 |     return transaction.vente.create({</tspan>
+    <tspan x="54" dy="18"> 82 |       data,</tspan>
+    <tspan x="54" dy="18"> 83 |       include: {</tspan>
+    <tspan x="54" dy="18"> 84 |         client: true,</tspan>
+    <tspan x="54" dy="18"> 85 |         medicament: true,</tspan>
+    <tspan x="54" dy="18"> 86 |       },</tspan>
+    <tspan x="54" dy="18"> 87 |     });</tspan>
+    <tspan x="54" dy="18"> 88 |   }</tspan>
+    <tspan x="54" dy="18"> 89 | </tspan>
+    <tspan x="54" dy="18"> 90 |   async transaction&lt;T&gt;(callback: (transaction: Prisma.TransactionClient) =&gt; Promise&lt;T&gt;) {</tspan>
+    <tspan x="54" dy="18"> 91 |     return db.$transaction(callback);</tspan>
+  </text>
+</svg>
